@@ -1,137 +1,829 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BUMAKO — Master Komoditas SPDT NTP 2026</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f8faf8;color:#1a1a1a;line-height:1.5}
-header{background:#16a34a;color:#fff;padding:1rem;text-align:center;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
-header h1{font-size:1.25rem;font-weight:700;letter-spacing:.5px}
-header p{font-size:.75rem;opacity:.85;margin-top:.15rem}
-.controls{padding:.75rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:auto;z-index:9}
-.search-wrap{position:relative;margin-bottom:.5rem}
-.search-wrap svg{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#9ca3af;pointer-events:none}
-#q{width:100%;padding:.6rem .75rem .6rem 2.25rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:1rem;outline:none;transition:border-color .15s}
-#q:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.15)}
-.filters{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.filters select,.filters button{padding:.35rem .6rem;border:1.5px solid #d1d5db;border-radius:6px;font-size:.8rem;background:#fff;cursor:pointer;transition:all .15s}
-.filters select:focus{border-color:#16a34a;outline:none}
-.btn-tipe{font-weight:500}
-.btn-tipe.active{background:#16a34a;color:#fff;border-color:#16a34a}
-.info{padding:.4rem .75rem;font-size:.75rem;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb}
-table{width:100%;border-collapse:collapse}
-thead{background:#f1f5f1;position:sticky;top:0;z-index:1}
-th{text-align:left;padding:.5rem .5rem;font-size:.7rem;text-transform:uppercase;color:#4b5563;font-weight:600;border-bottom:2px solid #d1d5db;white-space:nowrap}
-td{padding:.45rem .5rem;font-size:.82rem;border-bottom:1px solid #f0f0f0;vertical-align:top}
-tr:nth-child(even){background:#f8faf8}
-tr:hover{background:#ecfdf5}
-.kode{font-family:"SF Mono",Consolas,monospace;font-weight:600;color:#16a34a;font-size:.8rem;cursor:pointer;white-space:nowrap}
-.kode:active{opacity:.6}
-.satuan{color:#6b7280;font-size:.75rem;white-space:nowrap}
-.kelompok-tag{display:inline-block;background:#e0f2fe;color:#0369a1;padding:.1rem .35rem;border-radius:4px;font-size:.65rem;font-weight:500;white-space:nowrap}
-.subsektor-tag{display:inline-block;background:#f0fdf4;color:#16a34a;padding:.1rem .35rem;border-radius:4px;font-size:.65rem;font-weight:500;white-space:nowrap}
-mark{background:#fef08a;color:inherit;padding:0 1px;border-radius:2px}
-.table-wrap{overflow-x:auto}
-.empty{text-align:center;padding:3rem 1rem;color:#9ca3af}
-.empty svg{width:48px;height:48px;margin-bottom:.5rem}
-.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:.5rem 1rem;border-radius:8px;font-size:.8rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
-.toast.show{opacity:1}
+<meta name="description" content="Pencarian cepat kode master komoditas Buku 5 SPDT NTP 2026 Badan Pusat Statistik.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
 
-/* Desktop */
-@media(min-width:640px){
-  header h1{font-size:1.5rem}
-  .controls{padding:.75rem 1.5rem}
-  .info{padding:.4rem 1.5rem}
-  .table-wrap{padding:0 1rem}
-  td,th{padding:.5rem .75rem}
+<style>
+:root {
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', "SF Mono", Menlo, Consolas, monospace;
+
+  /* Light Theme */
+  --bg-page: #f6f8f6;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --bg-subtle: #f1f4f1;
+  --bg-hover: #eaf1ea;
+  --border-light: #e5e9e5;
+  --border-strong: #cbd5cb;
+
+  --text-main: #131c15;
+  --text-muted: #566559;
+  --text-dim: #7f9183;
+
+  --brand: #15803d;
+  --brand-hover: #166534;
+  --brand-surface: #ecfdf3;
+  --brand-border: #bbf7d0;
+  --brand-text: #14532d;
+
+  --badge-kel-bg: #e0f2fe;
+  --badge-kel-text: #0369a1;
+  --badge-biaya-bg: #fef3c7;
+  --badge-biaya-text: #92400e;
+  --badge-prod-bg: #dcfce7;
+  --badge-prod-text: #166534;
+
+  --mark-bg: #fde047;
+  --mark-text: #1e293b;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 12px -2px rgba(0,0,0,0.08), 0 2px 6px -1px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 25px -3px rgba(0,0,0,0.1), 0 4px 10px -2px rgba(0,0,0,0.05);
 }
 
-/* Hide subsektor column on very small screens */
-@media(max-width:420px){
-  .col-sub{display:none}
+[data-theme="dark"] {
+  --bg-page: #0d120f;
+  --bg-surface: #141c16;
+  --bg-surface-elevated: #1a251d;
+  --bg-subtle: #19231c;
+  --bg-hover: #223026;
+  --border-light: #253328;
+  --border-strong: #36493b;
+
+  --text-main: #f0f4f1;
+  --text-muted: #9eada1;
+  --text-dim: #6c7c6f;
+
+  --brand: #22c55e;
+  --brand-hover: #4ade80;
+  --brand-surface: #12281a;
+  --brand-border: #1e462a;
+  --brand-text: #86efac;
+
+  --badge-kel-bg: #0c2d48;
+  --badge-kel-text: #7dd3fc;
+  --badge-biaya-bg: #3d2406;
+  --badge-biaya-text: #fde68a;
+  --badge-prod-bg: #0f351f;
+  --badge-prod-text: #86efac;
+
+  --mark-bg: #854d0e;
+  --mark-text: #fef08a;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-md: 0 4px 14px rgba(0,0,0,0.4);
+  --shadow-lg: 0 10px 28px rgba(0,0,0,0.5);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color .2s ease, color .2s ease;
+}
+
+/* Header */
+header {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  box-shadow: var(--shadow-sm);
+}
+.header-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: .75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+.brand-group {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.brand-logo {
+  width: 38px;
+  height: 38px;
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+.brand-titles h1 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.version-tag {
+  font-size: .65rem;
+  font-weight: 600;
+  padding: .15rem .45rem;
+  background: var(--brand-surface);
+  color: var(--brand-text);
+  border: 1px solid var(--brand-border);
+  border-radius: 999px;
+  letter-spacing: .02em;
+}
+.brand-titles p {
+  font-size: .75rem;
+  color: var(--text-muted);
+}
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+.theme-toggle-btn {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: .5rem .75rem;
+  border-radius: 9px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  transition: all .15s ease;
+}
+.theme-toggle-btn:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+.theme-toggle-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Main Container */
+main {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem 1rem 3rem;
+}
+
+/* Control Panel */
+.panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.search-box {
+  position: relative;
+  margin-bottom: .85rem;
+}
+.search-icon {
+  position: absolute;
+  left: .85rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-dim);
+  pointer-events: none;
+  width: 18px;
+  height: 18px;
+}
+#q {
+  width: 100%;
+  padding: .75rem 2.5rem .75rem 2.6rem;
+  font-size: .95rem;
+  font-family: inherit;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 10px;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color .15s ease, box-shadow .15s ease;
+}
+#q:focus {
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.15);
+}
+.clear-search-btn {
+  position: absolute;
+  right: .75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  cursor: pointer;
+  padding: .2rem;
+  border-radius: 4px;
+  display: none;
+}
+.clear-search-btn:hover {
+  color: var(--text-main);
+}
+.clear-search-btn svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Filter controls */
+.filter-row {
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+@media (min-width: 768px) {
+  .filter-row {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.tipe-tabs {
+  display: inline-flex;
+  background: var(--bg-subtle);
+  padding: 3px;
+  border-radius: 10px;
+  border: 1px solid var(--border-light);
+  gap: 2px;
+}
+.tipe-btn {
+  background: none;
+  border: none;
+  padding: .4rem .85rem;
+  font-size: .8rem;
+  font-weight: 500;
+  font-family: inherit;
+  color: var(--text-muted);
+  border-radius: 7px;
+  cursor: pointer;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.tipe-btn:hover {
+  color: var(--text-main);
+}
+.tipe-btn.active {
+  background: var(--bg-surface-elevated);
+  color: var(--text-main);
+  font-weight: 600;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Subsektor Chips (Scrollable on mobile) */
+.subsektor-chips {
+  display: flex;
+  gap: .35rem;
+  overflow-x: auto;
+  padding-bottom: .25rem;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
+}
+.sub-chip {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  padding: .35rem .7rem;
+  border-radius: 8px;
+  font-size: .78rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: .35rem;
+  transition: all .15s ease;
+}
+.sub-chip:hover {
+  border-color: var(--border-strong);
+  color: var(--text-main);
+}
+.sub-chip.active {
+  background: var(--brand-surface);
+  border-color: var(--brand-border);
+  color: var(--brand-text);
+  font-weight: 600;
+}
+
+/* Results header & count */
+.results-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: .25rem .5rem .75rem;
+  font-size: .82rem;
+  color: var(--text-muted);
+}
+.results-meta strong {
+  color: var(--text-main);
+  font-weight: 600;
+}
+.reset-btn {
+  background: none;
+  border: none;
+  color: var(--brand);
+  font-size: .8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: none;
+  padding: .2rem .4rem;
+  border-radius: 4px;
+}
+.reset-btn:hover {
+  text-decoration: underline;
+}
+
+/* Table Design (Desktop) */
+.table-container {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+.table-wrap {
+  overflow-x: auto;
+  width: 100%;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+thead {
+  background: var(--bg-subtle);
+  border-bottom: 1px solid var(--border-strong);
+}
+th {
+  padding: .65rem .85rem;
+  font-size: .72rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  white-space: nowrap;
+}
+td {
+  padding: .65rem .85rem;
+  font-size: .85rem;
+  border-bottom: 1px solid var(--border-light);
+  vertical-align: middle;
+}
+tr:last-child td {
+  border-bottom: none;
+}
+tr:hover {
+  background: var(--bg-hover);
+}
+
+/* Cell specifics */
+.td-kode {
+  width: 120px;
+}
+.kode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-family: var(--font-mono);
+  font-size: .82rem;
+  font-weight: 600;
+  color: var(--brand-text);
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  padding: .2rem .45rem;
+  border-radius: 6px;
+  cursor: pointer;
+  user-select: all;
+  transition: all .15s ease;
+}
+.kode-badge:hover {
+  border-color: var(--brand);
+  transform: translateY(-1px);
+}
+.kode-badge svg {
+  width: 12px;
+  height: 12px;
+  opacity: .7;
+}
+
+.td-nama {
+  font-weight: 600;
+  color: var(--text-main);
+  min-width: 220px;
+}
+.td-satuan {
+  white-space: nowrap;
+  font-size: .8rem;
+  color: var(--text-muted);
+}
+.unit-arrow {
+  color: var(--text-dim);
+  font-size: .75rem;
+  margin: 0 .2rem;
+}
+
+.pill {
+  display: inline-block;
+  padding: .2rem .5rem;
+  border-radius: 6px;
+  font-size: .72rem;
+  font-weight: 600;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+.pill-kelompok {
+  background: var(--badge-kel-bg);
+  color: var(--badge-kel-text);
+}
+.pill-subsektor {
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-light);
+}
+.pill-tipe-prod {
+  background: var(--badge-prod-bg);
+  color: var(--badge-prod-text);
+}
+.pill-tipe-biaya {
+  background: var(--badge-biaya-bg);
+  color: var(--badge-biaya-text);
+}
+
+mark {
+  background: var(--mark-bg);
+  color: var(--mark-text);
+  padding: 0 2px;
+  border-radius: 3px;
+  font-weight: inherit;
+}
+
+/* Mobile Card View (shown only on small screen) */
+.mobile-cards {
+  display: none;
+  flex-direction: column;
+  gap: .75rem;
+}
+@media (max-width: 640px) {
+  .table-container {
+    display: none;
+  }
+  .mobile-cards {
+    display: flex;
+  }
+}
+.card-item {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: .85rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+.card-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: .5rem;
+}
+.card-nama {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.3;
+}
+.card-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .4rem;
+  font-size: .78rem;
+  color: var(--text-muted);
+}
+.card-satuan-box {
+  background: var(--bg-subtle);
+  padding: .15rem .45rem;
+  border-radius: 5px;
+  font-weight: 500;
+}
+
+/* Empty State */
+.empty-box {
+  text-align: center;
+  padding: 3.5rem 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  display: none;
+}
+.empty-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto .75rem;
+  color: var(--text-dim);
+}
+.empty-box h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: .25rem;
+}
+.empty-box p {
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+
+/* Toast Notification */
+.toast-notice {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: #111827;
+  color: #ffffff;
+  padding: .6rem 1.1rem;
+  border-radius: 10px;
+  font-size: .85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  box-shadow: var(--shadow-lg);
+  opacity: 0;
+  pointer-events: none;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 100;
+}
+[data-theme="dark"] .toast-notice {
+  background: #22c55e;
+  color: #062410;
+  font-weight: 600;
+}
+.toast-notice.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem 1rem;
+  font-size: .75rem;
+  color: var(--text-dim);
+  border-top: 1px solid var(--border-light);
+}
+footer a {
+  color: var(--brand);
+  text-decoration: none;
+}
+footer a:hover {
+  text-decoration: underline;
 }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>🌾 BUMAKO</h1>
-  <p>Buku Master Komoditas SPDT NTP 2026</p>
+  <div class="header-inner">
+    <div class="brand-group">
+      <div class="brand-logo" aria-hidden="true">🌾</div>
+      <div class="brand-titles">
+        <h1>BUMAKO <span class="version-tag">SPDT NTP 2026</span></h1>
+        <p>Buku Master Komoditas BPS</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="theme-toggle-btn" id="themeToggle" title="Ganti Tema (Gelap / Terang)" aria-label="Toggle theme">
+        <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="display:none">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386-1.591 1.591M21 12h-2.25m-.386 6.364-1.591-1.591M12 18.75V21m-4.773-4.227-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" />
+        </svg>
+        <svg id="themeIconMoon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0 1 18 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 0 0 3 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 0 0 9.002-5.998Z" />
+        </svg>
+        <span id="themeLabel">Gelap</span>
+      </button>
+    </div>
+  </div>
 </header>
 
-<div class="controls">
-  <div class="search-wrap">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
-    <input type="search" id="q" placeholder="Cari kode atau nama komoditas…" autocomplete="off" autofocus>
+<main>
+  <!-- Search & Filters -->
+  <section class="panel">
+    <div class="search-box">
+      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+      </svg>
+      <input type="search" id="q" placeholder="Cari nama komoditas, kode 7 digit, atau kelompok…" autocomplete="off" spellcheck="false" autofocus>
+      <button class="clear-search-btn" id="clearBtn" title="Bersihkan pencarian">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="filter-row">
+      <!-- Tipe Switch -->
+      <div class="tipe-tabs">
+        <button class="tipe-btn active" data-t="">Semua Tipe</button>
+        <button class="tipe-btn" data-t="produksi">Produksi</button>
+        <button class="tipe-btn" data-t="biaya">Biaya Produksi</button>
+      </div>
+
+      <!-- Subsektor Chips -->
+      <div class="subsektor-chips" id="subChips">
+        <button class="sub-chip active" data-s="">Semua Subsektor</button>
+        <button class="sub-chip" data-s="2">🌾 Tanaman Pangan</button>
+        <button class="sub-chip" data-s="3">🥦 Hortikultura</button>
+        <button class="sub-chip" data-s="4">🌴 Perkebunan Rakyat</button>
+        <button class="sub-chip" data-s="5">🐄 Peternakan</button>
+        <button class="sub-chip" data-s="6">🎣 Perikanan Tangkap</button>
+        <button class="sub-chip" data-s="7">🦐 Perikanan Budidaya</button>
+        <button class="sub-chip" data-s="8">🌲 Kehutanan</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Results Count & Reset Helper -->
+  <div class="results-meta">
+    <div id="infoText">Memuat komoditas…</div>
+    <button class="reset-btn" id="resetBtn">Reset Filter</button>
   </div>
-  <div class="filters">
-    <select id="fSub">
-      <option value="">Semua Subsektor</option>
-      <option value="2">Tanaman Pangan</option>
-      <option value="3">Hortikultura</option>
-      <option value="4">Perkebunan Rakyat</option>
-      <option value="5">Peternakan</option>
-      <option value="6">Perikanan Tangkap</option>
-      <option value="7">Perikanan Budidaya</option>
-      <option value="8">Kehutanan</option>
-    </select>
-    <button class="btn-tipe active" data-t="">Semua</button>
-    <button class="btn-tipe" data-t="produksi">Produksi</button>
-    <button class="btn-tipe" data-t="biaya">Biaya</button>
+
+  <!-- Desktop Table -->
+  <div class="table-container">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th class="td-kode">Kode</th>
+            <th>Komoditas</th>
+            <th>Satuan</th>
+            <th>Kelompok</th>
+            <th>Subsektor</th>
+            <th>Tipe</th>
+          </tr>
+        </thead>
+        <tbody id="tbody"></tbody>
+      </table>
+    </div>
   </div>
+
+  <!-- Mobile Cards View -->
+  <div class="mobile-cards" id="mobileCards"></div>
+
+  <!-- Empty Box -->
+  <div class="empty-box" id="emptyBox">
+    <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+    </svg>
+    <h3>Tidak ada komoditas ditemukan</h3>
+    <p>Coba periksa ejaan atau ubah filter subsektor dan tipe.</p>
+  </div>
+</main>
+
+<!-- Toast -->
+<div class="toast-notice" id="toast">
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  </svg>
+  <span>Kode <strong id="toastKode"></strong> berhasil disalin</span>
 </div>
 
-<div class="info" id="info"></div>
-
-<div class="table-wrap">
-  <table>
-    <thead>
-      <tr>
-        <th>Kode</th>
-        <th>Komoditas</th>
-        <th>Satuan</th>
-        <th>Kelompok</th>
-        <th class="col-sub">Subsektor</th>
-      </tr>
-    </thead>
-    <tbody id="tbody"></tbody>
-  </table>
-</div>
-
-<div class="empty" id="empty" style="display:none">
-  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
-  <p>Tidak ada komoditas yang cocok</p>
-</div>
-
-<div class="toast" id="toast">Kode disalin!</div>
+<footer>
+  <p>Buku 5 Master Komoditas SPDT NTP 2026 &bull; Badan Pusat Statistik (BPS)</p>
+  <p style="margin-top: .25rem;">Deploy di GitHub Pages: <a href="https://github.com/ridsonap/bumako" target="_blank" rel="noopener">ridsonap/bumako</a></p>
+</footer>
 
 <script src="data.js"></script>
 <script>
-(function(){
+(function() {
+  const root = document.documentElement;
   const q = document.getElementById('q');
-  const fSub = document.getElementById('fSub');
+  const clearBtn = document.getElementById('clearBtn');
   const tbody = document.getElementById('tbody');
-  const info = document.getElementById('info');
-  const empty = document.getElementById('empty');
+  const mobileCards = document.getElementById('mobileCards');
+  const infoText = document.getElementById('infoText');
+  const resetBtn = document.getElementById('resetBtn');
+  const emptyBox = document.getElementById('emptyBox');
   const toast = document.getElementById('toast');
-  const btns = document.querySelectorAll('.btn-tipe');
-  let tipe = '';
+  const toastKode = document.getElementById('toastKode');
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIconSun = document.getElementById('themeIconSun');
+  const themeIconMoon = document.getElementById('themeIconMoon');
+  const themeLabel = document.getElementById('themeLabel');
+
+  const tipeBtns = document.querySelectorAll('.tipe-btn');
+  const subChips = document.querySelectorAll('.sub-chip');
+
+  let activeTipe = '';
+  let activeSub = '';
   let toastTimer;
+  const MAX_RENDER = 300;
 
-  // Virtual rendering: render max N rows at a time for initial load perf
-  const MAX_RENDER = 500;
+  // 1. Theme Logic (Persistent)
+  function initTheme() {
+    const saved = localStorage.getItem('bumako_theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = saved || (prefersDark ? 'dark' : 'light');
+    setTheme(theme);
+  }
 
-  btns.forEach(b => b.addEventListener('click', () => {
-    btns.forEach(x => x.classList.remove('active'));
-    b.classList.add('active');
-    tipe = b.dataset.t;
+  function setTheme(t) {
+    root.setAttribute('data-theme', t);
+    localStorage.setItem('bumako_theme', t);
+    if (t === 'dark') {
+      themeIconSun.style.display = 'block';
+      themeIconMoon.style.display = 'none';
+      themeLabel.textContent = 'Terang';
+    } else {
+      themeIconSun.style.display = 'none';
+      themeIconMoon.style.display = 'block';
+      themeLabel.textContent = 'Gelap';
+    }
+  }
+
+  themeToggle.addEventListener('click', () => {
+    const current = root.getAttribute('data-theme') || 'light';
+    setTheme(current === 'light' ? 'dark' : 'light');
+  });
+
+  // 2. Filter Listeners
+  tipeBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      tipeBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      activeTipe = b.dataset.t;
+      render();
+    });
+  });
+
+  subChips.forEach(c => {
+    c.addEventListener('click', () => {
+      subChips.forEach(x => x.classList.remove('active'));
+      c.classList.add('active');
+      activeSub = c.dataset.s;
+      render();
+    });
+  });
+
+  q.addEventListener('input', () => {
+    clearBtn.style.display = q.value ? 'block' : 'none';
     render();
-  }));
+  });
 
-  q.addEventListener('input', render);
-  fSub.addEventListener('change', render);
+  clearBtn.addEventListener('click', () => {
+    q.value = '';
+    clearBtn.style.display = 'none';
+    q.focus();
+    render();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    q.value = '';
+    clearBtn.style.display = 'none';
+    activeTipe = '';
+    activeSub = '';
+    tipeBtns.forEach((b, i) => b.classList.toggle('active', i === 0));
+    subChips.forEach((c, i) => c.classList.toggle('active', i === 0));
+    render();
+  });
+
+  // Shortcut key '/' or Ctrl+K / Cmd+K to focus search
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === '/' && document.activeElement !== q) || ((e.ctrlKey || e.metaKey) && e.key === 'k')) {
+      e.preventDefault();
+      q.focus();
+      q.select();
+    }
+  });
+
+  function esc(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
 
   function hl(text, terms) {
     if (!terms || terms.length === 0) return esc(text);
@@ -143,65 +835,11 @@ mark{background:#fef08a;color:inherit;padding:0 1px;border-radius:2px}
     return escaped;
   }
 
-  function esc(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-  }
-
-  function render() {
-    const raw = q.value.trim().toLowerCase();
-    const terms = raw ? raw.split(/\s+/).filter(Boolean) : [];
-    const sub = fSub.value;
-    let results = DATA;
-
-    if (sub) results = results.filter(d => d.subsektor === sub);
-    if (tipe) results = results.filter(d => d.tipe === tipe);
-    if (terms.length > 0) {
-      results = results.filter(d => {
-        const text = (d.nama + ' ' + d.kode + ' ' + d.kelompokNama).toLowerCase();
-        return terms.every(t => text.includes(t));
-      });
-    }
-
-    const total = results.length;
-    const shown = Math.min(total, MAX_RENDER);
-    info.textContent = total.toLocaleString('id-ID') + ' komoditas ditemukan' +
-      (shown < total ? ' (menampilkan ' + shown + ' pertama)' : '');
-
-    if (total === 0) {
-      tbody.innerHTML = '';
-      empty.style.display = '';
-      return;
-    }
-    empty.style.display = 'none';
-
-    const frag = [];
-    for (let i = 0; i < shown; i++) {
-      const d = results[i];
-      const sat = d.satuanTanam && d.satuanProduksi
-        ? d.satuanTanam + ' → ' + d.satuanProduksi
-        : (d.satuan || '-');
-      frag.push(
-        '<tr>' +
-        '<td class="kode" data-k="' + d.kode + '" title="Klik untuk salin">' + hl(d.kode, terms) + '</td>' +
-        '<td>' + hl(d.nama, terms) + '</td>' +
-        '<td class="satuan">' + esc(sat) + '</td>' +
-        '<td><span class="kelompok-tag">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span></td>' +
-        '<td class="col-sub"><span class="subsektor-tag">' + esc(d.subsektorNama) + '</span></td>' +
-        '</tr>'
-      );
-    }
-    tbody.innerHTML = frag.join('');
-  }
-
-  // Copy kode on click
-  tbody.addEventListener('click', function(e) {
-    const td = e.target.closest('.kode');
-    if (!td) return;
-    const k = td.dataset.k;
-    if (navigator.clipboard) {
+  // Copy Code to Clipboard
+  function copyCode(k) {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(k);
     } else {
-      // fallback
       const ta = document.createElement('textarea');
       ta.value = k;
       document.body.appendChild(ta);
@@ -209,12 +847,112 @@ mark{background:#fef08a;color:inherit;padding:0 1px;border-radius:2px}
       document.execCommand('copy');
       document.body.removeChild(ta);
     }
+    toastKode.textContent = k;
     clearTimeout(toastTimer);
     toast.classList.add('show');
-    toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  // 3. Render
+  function render() {
+    const raw = q.value.trim().toLowerCase();
+    const terms = raw ? raw.split(/\s+/).filter(Boolean) : [];
+    let results = DATA;
+
+    if (activeSub) results = results.filter(d => d.subsektor === activeSub);
+    if (activeTipe) results = results.filter(d => d.tipe === activeTipe);
+
+    if (terms.length > 0) {
+      results = results.filter(d => {
+        const text = (d.nama + ' ' + d.kode + ' ' + d.kelompokNama + ' ' + d.kelompok).toLowerCase();
+        return terms.every(t => text.includes(t));
+      });
+    }
+
+    const total = results.length;
+    const shown = Math.min(total, MAX_RENDER);
+
+    // Meta count
+    const hasFilter = raw || activeSub || activeTipe;
+    resetBtn.style.display = hasFilter ? 'block' : 'none';
+
+    infoText.innerHTML = 'Menemukan <strong>' + total.toLocaleString('id-ID') + '</strong> komoditas' +
+      (shown < total ? ' <span style="opacity:.7">(menampilkan ' + shown + ' pertama)</span>' : '');
+
+    if (total === 0) {
+      tbody.innerHTML = '';
+      mobileCards.innerHTML = '';
+      emptyBox.style.display = 'block';
+      return;
+    }
+    emptyBox.style.display = 'none';
+
+    // Build Desktop Table Rows
+    const tableRows = [];
+    const cardItems = [];
+
+    for (let i = 0; i < shown; i++) {
+      const d = results[i];
+      const satText = d.satuanTanam && d.satuanProduksi
+        ? esc(d.satuanTanam) + '<span class="unit-arrow">→</span>' + esc(d.satuanProduksi)
+        : esc(d.satuan || '-');
+
+      const tipePill = d.tipe === 'produksi'
+        ? '<span class="pill pill-tipe-prod">Produksi</span>'
+        : '<span class="pill pill-tipe-biaya">Biaya</span>';
+
+      const copySvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg>';
+
+      // Table row
+      tableRows.push(
+        '<tr>' +
+        '<td class="td-kode">' +
+          '<button class="kode-badge" data-k="' + d.kode + '" title="Klik untuk salin kode">' +
+            hl(d.kode, terms) + copySvg +
+          '</button>' +
+        '</td>' +
+        '<td class="td-nama">' + hl(d.nama, terms) + '</td>' +
+        '<td class="td-satuan">' + satText + '</td>' +
+        '<td><span class="pill pill-kelompok">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span></td>' +
+        '<td><span class="pill pill-subsektor">' + esc(d.subsektorNama) + '</span></td>' +
+        '<td>' + tipePill + '</td>' +
+        '</tr>'
+      );
+
+      // Mobile card
+      cardItems.push(
+        '<div class="card-item">' +
+          '<div class="card-top">' +
+            '<div class="card-nama">' + hl(d.nama, terms) + '</div>' +
+            '<button class="kode-badge" data-k="' + d.kode + '" title="Klik untuk salin kode">' +
+              hl(d.kode, terms) + copySvg +
+            '</button>' +
+          '</div>' +
+          '<div class="card-meta">' +
+            '<span class="card-satuan-box">' + satText + '</span>' +
+            tipePill +
+            '<span class="pill pill-kelompok">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span>' +
+            '<span class="pill pill-subsektor">' + esc(d.subsektorNama) + '</span>' +
+          '</div>' +
+        '</div>'
+      );
+    }
+
+    tbody.innerHTML = tableRows.join('');
+    mobileCards.innerHTML = cardItems.join('');
+  }
+
+  // Delegated Copy Clicks
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.kode-badge');
+    if (btn) {
+      e.preventDefault();
+      copyCode(btn.dataset.k);
+    }
   });
 
-  // Initial render
+  // Init
+  initTheme();
   render();
 })();
 </script>
