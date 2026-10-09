@@ -300,10 +300,11 @@ main {
 }
 
 /* =======================================================
-   2. DAFTAR ISI CARD / TREE ACCORDION
+   2. DAFTAR ISI CARD BERTINGKAT HINGGA UNIT TERKECIL
    ======================================================= */
 .toc-section {
   margin-bottom: 1.5rem;
+  transition: opacity .2s ease;
 }
 .toc-header-bar {
   display: flex;
@@ -311,6 +312,8 @@ main {
   justify-content: space-between;
   margin-bottom: .75rem;
   padding: 0 .25rem;
+  flex-wrap: wrap;
+  gap: .5rem;
 }
 .toc-title {
   font-size: .88rem;
@@ -432,7 +435,7 @@ main {
   color: var(--text-dim);
   transition: transform .2s ease;
 }
-.sektor-card.open .chevron-icon {
+.sektor-card.open > .sektor-card-header .chevron-icon {
   transform: rotate(180deg);
 }
 
@@ -443,7 +446,7 @@ main {
   border-top: 1px solid var(--border-light);
   background: var(--bg-subtle);
 }
-.sektor-card.open .sektor-card-body {
+.sektor-card.open > .sektor-card-body {
   display: block;
 }
 
@@ -452,6 +455,8 @@ main {
   align-items: center;
   justify-content: space-between;
   margin-bottom: .65rem;
+  flex-wrap: wrap;
+  gap: .4rem;
 }
 .btn-select-all-sektor {
   background: var(--bg-surface);
@@ -493,6 +498,7 @@ main {
   cursor: pointer;
   font-size: .82rem;
   font-weight: 600;
+  user-select: none;
 }
 .kelompok-header:hover {
   background: var(--bg-hover);
@@ -517,58 +523,142 @@ main {
   color: var(--text-dim);
   transition: transform .2s ease;
 }
-.kelompok-item.open .kelompok-chevron {
+.kelompok-item.open > .kelompok-header .kelompok-chevron {
   transform: rotate(180deg);
 }
 
 /* Subkelompok List inside Kelompok (Konsumsi) */
 .subkelompok-list {
   display: none;
-  padding: .4rem .75rem .6rem 2.25rem;
+  padding: .5rem .75rem .6rem 1.5rem;
   background: var(--bg-page);
+  border-top: 1px solid var(--border-light);
+  gap: .4rem;
+  flex-direction: column;
+}
+.kelompok-item.open > .subkelompok-list {
+  display: flex;
+}
+.subkelompok-box {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.subkelompok-header {
+  padding: .4rem .65rem;
+  font-size: .78rem;
+  font-weight: 600;
+  color: var(--text-main);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+  transition: background .15s ease;
+}
+.subkelompok-header:hover {
+  background: var(--bg-hover);
+}
+.subkelompok-box.open > .subkelompok-header .kelompok-chevron {
+  transform: rotate(180deg);
+}
+.subkelompok-box.active-subkelompok {
+  border-color: var(--brand);
+}
+
+/* Rincian Komoditas (Unit Terkecil) List */
+.komoditas-leaf-list {
+  display: none;
+  padding: .4rem .5rem .5rem;
+  background: var(--bg-subtle);
   border-top: 1px solid var(--border-light);
   gap: .35rem;
   flex-direction: column;
 }
-.kelompok-item.open .subkelompok-list {
+.subkelompok-box.open > .komoditas-leaf-list,
+.kelompok-item.open > .komoditas-leaf-list {
   display: flex;
 }
-.subkelompok-btn {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-light);
-  border-radius: 6px;
-  padding: .35rem .65rem;
-  font-size: .78rem;
-  font-weight: 500;
-  color: var(--text-main);
-  cursor: pointer;
-  text-align: left;
+.komoditas-tree-item {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: .5rem;
+  padding: .35rem .6rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 7px;
+  font-size: .78rem;
   transition: all .15s ease;
-  font-family: inherit;
 }
-.subkelompok-btn:hover {
-  background: var(--bg-hover);
+.komoditas-tree-item:hover {
   border-color: var(--border-strong);
+  background: var(--bg-hover);
 }
-.subkelompok-btn.active-subkelompok {
-  background: var(--brand-surface);
-  border-color: var(--brand-border);
-  color: var(--brand-text);
+.tree-item-info {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  min-width: 0;
+  flex: 1;
+}
+.tree-nama {
   font-weight: 600;
+  color: var(--text-main);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
-.subkel-code {
-  font-family: var(--font-mono);
+.tree-satuan {
   font-size: .72rem;
   color: var(--text-muted);
-  margin-right: .35rem;
+  background: var(--bg-subtle);
+  padding: .1rem .4rem;
+  border-radius: 4px;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 /* =======================================================
-   ACTIVE FILTER BAR & META COUNT
+   SEARCH RESULTS HEADER & ACTIVE FILTER BANNER
    ======================================================= */
+.search-results-banner {
+  background: var(--brand-surface);
+  border: 1.5px solid var(--brand-border);
+  border-radius: 12px;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem;
+}
+.search-results-text {
+  font-size: .88rem;
+  color: var(--brand-text);
+  font-weight: 600;
+}
+.btn-back-to-toc {
+  background: var(--bg-surface);
+  border: 1px solid var(--brand-border);
+  color: var(--brand-text);
+  font-size: .78rem;
+  font-weight: 700;
+  padding: .35rem .75rem;
+  border-radius: 7px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  font-family: inherit;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-back-to-toc:hover {
+  background: var(--brand-surface);
+}
+
 .active-filter-indicator {
   background: var(--brand-surface);
   border: 1px solid var(--brand-border);
@@ -940,17 +1030,30 @@ footer a:hover {
     </div>
   </section>
 
-  <!-- 2. DAFTAR ISI CARD BERTINGKAT (ACCORDION / TOC TREE) -->
-  <section class="toc-section">
+  <!-- BANNER HASIL PENCARIAN (MUNCUL KETIKA USER MENCARI CEPAT) -->
+  <div class="search-results-banner" id="searchResultsBanner">
+    <div class="search-results-text">
+      <span>Hasil Pencarian: </span><strong id="searchQueryText"></strong>
+    </div>
+    <button class="btn-back-to-toc" id="btnBackToTOC">
+      <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+      </svg>
+      <span>Tutup & Kembali ke Daftar Isi</span>
+    </button>
+  </div>
+
+  <!-- 2. DAFTAR ISI CARD BERTINGKAT HINGGA UNIT TERKECIL -->
+  <section class="toc-section" id="tocSection">
     <div class="toc-header-bar">
       <div class="toc-title">
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.966 8.966 0 0 0-6 2.292m0-14.25v14.25" />
         </svg>
-        <span>Daftar Isi Master Komoditas (Pilih Bertahap)</span>
+        <span>Daftar Isi Master Komoditas (Pilih Bertahap hingga Unit Terkecil)</span>
       </div>
       <div class="toc-actions">
-        <button class="btn-toc-toggle" id="btnExpandAll">Buka Semua</button>
+        <button class="btn-toc-toggle" id="btnExpandAll">Buka Sektor & Kelompok</button>
         <button class="btn-toc-toggle" id="btnCollapseAll">Tutup Semua</button>
       </div>
     </div>
@@ -971,7 +1074,7 @@ footer a:hover {
   <!-- Results Count & Reset Helper -->
   <div class="results-meta">
     <div id="infoText">Memuat komoditas…</div>
-    <button class="reset-btn" id="resetBtn">Reset Semua Filter</button>
+    <button class="reset-btn" id="resetBtn">Reset Pencarian / Filter</button>
   </div>
 
   <!-- Desktop Table -->
@@ -1043,6 +1146,12 @@ footer a:hover {
   const mobileCards = document.getElementById('mobileCards');
   const emptyBox = document.getElementById('emptyBox');
 
+  // Search Results Banner & TOC Section Elements
+  const tocSection = document.getElementById('tocSection');
+  const searchResultsBanner = document.getElementById('searchResultsBanner');
+  const searchQueryText = document.getElementById('searchQueryText');
+  const btnBackToTOC = document.getElementById('btnBackToTOC');
+
   // TOC Elements
   const tocCardsContainer = document.getElementById('tocCardsContainer');
   const btnExpandAll = document.getElementById('btnExpandAll');
@@ -1058,7 +1167,10 @@ footer a:hover {
   let activeTipe = '';
   const MAX_RENDER = 300;
 
+  const COPY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg>';
+
   // 1. Build TOC Hierarchy Tree from DATA
+  // Sektor -> Kelompok -> Subkelompok -> Items (Unit Terkecil)
   const TOC = new Map();
   DATA.forEach(d => {
     if (!TOC.has(d.subsektor)) {
@@ -1079,7 +1191,8 @@ footer a:hover {
         nama: d.kelompokNama,
         count: 0,
         tipe: d.tipe,
-        subkelompoks: new Map()
+        subkelompoks: new Map(),
+        items: []
       });
     }
     const k = s.kelompoks.get(kelKey);
@@ -1090,10 +1203,15 @@ footer a:hover {
         k.subkelompoks.set(d.subkelompok, {
           kode: d.subkelompok,
           nama: d.subkelompokNama,
-          count: 0
+          count: 0,
+          items: []
         });
       }
-      k.subkelompoks.get(d.subkelompok).count++;
+      const sub = k.subkelompoks.get(d.subkelompok);
+      sub.count++;
+      sub.items.push(d);
+    } else {
+      k.items.push(d);
     }
   });
 
@@ -1105,26 +1223,37 @@ footer a:hover {
     const html = [];
 
     TOC.forEach(s => {
-      // Kelompoks inside Sektor
       const kelHtml = [];
+
       s.kelompoks.forEach(k => {
         const hasSub = k.subkelompoks.size > 0;
 
         let subHtml = '';
         if (hasSub) {
-          const subItems = [];
+          // Konsumsi: Kelompok contains Subkelompoks
+          const subBoxes = [];
           k.subkelompoks.forEach(sub => {
-            subItems.push(`
-              <button class="subkelompok-btn" data-subsektor="${s.id}" data-kelompok="${k.kode}" data-subkelompok="${sub.kode}">
-                <div>
-                  <span class="subkel-code">${sub.kode}</span>
-                  <span>${esc(sub.nama)}</span>
+            subBoxes.push(`
+              <div class="subkelompok-box" data-subsektor="${s.id}" data-kelompok="${k.kode}" data-subkelompok="${sub.kode}">
+                <div class="subkelompok-header">
+                  <div style="display:flex; align-items:center; gap:.4rem;">
+                    <span class="subkel-code">${sub.kode}</span>
+                    <span>${esc(sub.nama)}</span>
+                  </div>
+                  <div style="display:flex; align-items:center; gap:.35rem;">
+                    <span class="sektor-count-pill">${sub.count}</span>
+                    ${SMALL_CHEVRON_SVG}
+                  </div>
                 </div>
-                <span class="sektor-count-pill">${sub.count}</span>
-              </button>
+                <!-- Unit Terkecil (Komoditas) container -->
+                <div class="komoditas-leaf-list" id="leaf_${s.id}_${k.kode}_${sub.kode.replace(/[^a-zA-Z0-9]/g, '_')}"></div>
+              </div>
             `);
           });
-          subHtml = `<div class="subkelompok-list">${subItems.join('')}</div>`;
+          subHtml = `<div class="subkelompok-list">${subBoxes.join('')}</div>`;
+        } else {
+          // Pertanian (2..8): Kelompok directly contains Komoditas (Unit Terkecil)
+          subHtml = `<div class="komoditas-leaf-list" id="leaf_${s.id}_${k.kode}"></div>`;
         }
 
         kelHtml.push(`
@@ -1136,7 +1265,7 @@ footer a:hover {
               </div>
               <div style="display:flex; align-items:center; gap:.4rem;">
                 <span class="sektor-count-pill">${k.count}</span>
-                ${hasSub ? SMALL_CHEVRON_SVG : ''}
+                ${SMALL_CHEVRON_SVG}
               </div>
             </div>
             ${subHtml}
@@ -1158,9 +1287,9 @@ footer a:hover {
           </div>
           <div class="sektor-card-body">
             <div class="sektor-quick-filter-row">
-              <span style="font-size:.78rem; color:var(--text-muted); font-weight:600;">Daftar Kelompok:</span>
+              <span style="font-size:.78rem; color:var(--text-muted); font-weight:600;">Daftar Kelompok & Komoditas:</span>
               <button class="btn-select-all-sektor" data-subsektor="${s.id}">
-                Tampilkan Semua ${esc(s.nama)} (${s.count})
+                Tampilkan Semua Komoditas di ${esc(s.nama)} (${s.count})
               </button>
             </div>
             <div class="kelompok-list">
@@ -1172,6 +1301,40 @@ footer a:hover {
     });
 
     tocCardsContainer.innerHTML = html.join('');
+  }
+
+  // Render Leaf Komoditas Items (Unit Terkecil) on-demand into container
+  function populateLeafKomoditas(containerId, items) {
+    const el = document.getElementById(containerId);
+    if (!el || el.children.length > 0) return; // already rendered
+
+    const leafItems = items.map(d => {
+      const satText = d.satuanTanam && d.satuanProduksi
+        ? esc(d.satuanTanam) + '<span class="unit-arrow">→</span>' + esc(d.satuanProduksi)
+        : esc(d.satuan || '-');
+
+      let tipeBadge = '';
+      if (d.tipe === 'produksi') tipeBadge = '<span class="pill pill-tipe-prod">Produksi</span>';
+      else if (d.tipe === 'biaya') tipeBadge = '<span class="pill pill-tipe-biaya">Biaya</span>';
+      else tipeBadge = '<span class="pill pill-tipe-konsumsi">Konsumsi</span>';
+
+      return `
+        <div class="komoditas-tree-item" data-kode="${d.kode}">
+          <div class="tree-item-info">
+            <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
+              ${d.kode}${COPY_SVG}
+            </button>
+            <span class="tree-nama" title="${esc(d.nama)}">${esc(d.nama)}</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:.4rem; flex-shrink:0;">
+            <span class="tree-satuan">${satText}</span>
+            ${tipeBadge}
+          </div>
+        </div>
+      `;
+    });
+
+    el.innerHTML = leafItems.join('');
   }
 
   // 3. Theme Logic (Default light)
@@ -1232,8 +1395,6 @@ footer a:hover {
     return escaped;
   }
 
-  const COPY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75\" /></svg>';
-
   // 5. Update TOC Active Highlights
   function updateTOCVisuals() {
     document.querySelectorAll('.sektor-card').forEach(c => {
@@ -1245,7 +1406,7 @@ footer a:hover {
       k.classList.toggle('active-kelompok', isKel);
     });
 
-    document.querySelectorAll('.subkelompok-btn').forEach(b => {
+    document.querySelectorAll('.subkelompok-box').forEach(b => {
       const isSub = b.dataset.subsektor === activeSubsektor &&
                     b.dataset.kelompok === activeKelompok &&
                     b.dataset.subkelompok === activeSubkelompok;
@@ -1278,14 +1439,26 @@ footer a:hover {
   function render() {
     const raw = q.value.trim().toLowerCase();
     const terms = raw ? raw.split(/\s+/).filter(Boolean) : [];
+    const isSearching = terms.length > 0;
+
+    // OTOMATIS: Sembunyikan TOC saat user mengetik cari cepat, tampilkan kembali saat kosong
+    if (isSearching) {
+      tocSection.style.display = 'none';
+      searchResultsBanner.style.display = 'flex';
+      searchQueryText.textContent = `"${q.value.trim()}"`;
+    } else {
+      tocSection.style.display = 'block';
+      searchResultsBanner.style.display = 'none';
+    }
+
     let results = DATA;
 
     if (activeSubsektor) results = results.filter(d => d.subsektor === activeSubsektor);
     if (activeKelompok) results = results.filter(d => d.kelompok === activeKelompok);
-    if (activeSubkelompok) results = results.filter(d => d.subkelompok === activeSubkelompok);
+    if (activeSubkelompok) results = results.filter(d => d.subsektor === '1' && d.subkelompok === activeSubkelompok);
     if (activeTipe) results = results.filter(d => d.tipe === activeTipe);
 
-    if (terms.length > 0) {
+    if (isSearching) {
       results = results.filter(d => {
         const text = (d.nama + ' ' + d.kode + ' ' + d.kelompokNama + ' ' + d.kelompok + ' ' + (d.subkelompokNama || '')).toLowerCase();
         return terms.every(t => text.includes(t));
@@ -1298,8 +1471,13 @@ footer a:hover {
     const hasFilter = raw || activeSubsektor || activeKelompok || activeSubkelompok || activeTipe;
     resetBtn.style.display = hasFilter ? 'block' : 'none';
 
-    infoText.innerHTML = 'Menemukan <strong>' + total.toLocaleString('id-ID') + '</strong> komoditas' +
-      (shown < total ? ' <span style="opacity:.7">(menampilkan ' + shown + ' pertama)</span>' : '');
+    if (isSearching) {
+      infoText.innerHTML = 'Hasil pencarian menemukan <strong>' + total.toLocaleString('id-ID') + '</strong> komoditas' +
+        (shown < total ? ' <span style="opacity:.7">(menampilkan ' + shown + ' pertama)</span>' : '');
+    } else {
+      infoText.innerHTML = 'Menampilkan <strong>' + total.toLocaleString('id-ID') + '</strong> komoditas' +
+        (shown < total ? ' <span style="opacity:.7">(menampilkan ' + shown + ' pertama)</span>' : '');
+    }
 
     updateTOCVisuals();
 
@@ -1378,9 +1556,18 @@ footer a:hover {
 
   // 7. Event Listeners
 
-  // Expand / Collapse Sektor Card
+  // Interaksi Klik Daftar Isi (Accordion hingga Unit Terkecil)
   tocCardsContainer.addEventListener('click', (e) => {
-    // 1) Klik tombol "Tampilkan Semua Sektor Ini"
+    // 1) Klik Tombol Salin Kode di dalam pohon
+    const copyBtn = e.target.closest('.kode-badge');
+    if (copyBtn) {
+      e.stopPropagation();
+      e.preventDefault();
+      copyCode(copyBtn.dataset.k);
+      return;
+    }
+
+    // 2) Klik Tombol "Tampilkan Semua Komoditas di Sektor Ini"
     const btnAllSektor = e.target.closest('.btn-select-all-sektor');
     if (btnAllSektor) {
       e.stopPropagation();
@@ -1392,36 +1579,61 @@ footer a:hover {
       return;
     }
 
-    // 2) Klik Subkelompok button
-    const subkelBtn = e.target.closest('.subkelompok-btn');
-    if (subkelBtn) {
+    // 3) Klik Subkelompok Header (Khusus Konsumsi) -> Expand/Collapse Unit Terkecil
+    const subkelHeader = e.target.closest('.subkelompok-header');
+    if (subkelHeader) {
       e.stopPropagation();
-      activeSubsektor = subkelBtn.dataset.subsektor;
-      activeKelompok = subkelBtn.dataset.kelompok;
-      activeSubkelompok = subkelBtn.dataset.subkelompok;
+      const subBox = subkelHeader.closest('.subkelompok-box');
+      const subId = subBox.dataset.subsektor;
+      const kelCode = subBox.dataset.kelompok;
+      const subCode = subBox.dataset.subkelompok;
+      const leafId = `leaf_${subId}_${kelCode}_${subCode.replace(/[^a-zA-Z0-9]/g, '_')}`;
+
+      // Populate leaf items on-demand
+      const s = TOC.get(subId);
+      const k = s?.kelompoks.get(kelCode);
+      const sub = k?.subkelompoks.get(subCode);
+      if (sub) {
+        populateLeafKomoditas(leafId, sub.items);
+      }
+
+      subBox.classList.toggle('open');
+
+      activeSubsektor = subId;
+      activeKelompok = kelCode;
+      activeSubkelompok = subBox.classList.contains('open') ? subCode : '';
       render();
       return;
     }
 
-    // 3) Klik Kelompok header
+    // 4) Klik Kelompok Header
     const kelHeader = e.target.closest('.kelompok-header');
     if (kelHeader) {
       e.stopPropagation();
       const kelItem = kelHeader.closest('.kelompok-item');
-      const hasSub = kelItem.querySelector('.subkelompok-list');
+      const subId = kelItem.dataset.subsektor;
+      const kelCode = kelItem.dataset.kelompok;
+      const s = TOC.get(subId);
+      const k = s?.kelompoks.get(kelCode);
 
-      if (hasSub) {
-        kelItem.classList.toggle('open');
+      if (k) {
+        if (k.subkelompoks.size === 0) {
+          // Pertanian (2..8): populate komoditas leaf langsung di bawah kelompok
+          const leafId = `leaf_${subId}_${kelCode}`;
+          populateLeafKomoditas(leafId, k.items);
+        }
       }
 
-      activeSubsektor = kelItem.dataset.subsektor;
-      activeKelompok = kelItem.dataset.kelompok;
+      kelItem.classList.toggle('open');
+
+      activeSubsektor = subId;
+      activeKelompok = kelItem.classList.contains('open') ? kelCode : '';
       activeSubkelompok = '';
       render();
       return;
     }
 
-    // 4) Klik Sektor Card Header -> toggle accordion
+    // 5) Klik Sektor Card Header -> Expand/Collapse Card Sektor
     const header = e.target.closest('.sektor-card-header');
     if (header) {
       const card = header.closest('.sektor-card');
@@ -1430,17 +1642,26 @@ footer a:hover {
     }
   });
 
-  // Expand / Collapse All TOC
+  // Buka Sektor & Kelompok
   btnExpandAll.addEventListener('click', () => {
     document.querySelectorAll('.sektor-card').forEach(c => c.classList.add('open'));
     document.querySelectorAll('.kelompok-item').forEach(k => {
-      if (k.querySelector('.subkelompok-list')) k.classList.add('open');
+      const subId = k.dataset.subsektor;
+      const kelCode = k.dataset.kelompok;
+      const s = TOC.get(subId);
+      const itemK = s?.kelompoks.get(kelCode);
+      if (itemK && itemK.subkelompoks.size === 0) {
+        populateLeafKomoditas(`leaf_${subId}_${kelCode}`, itemK.items);
+      }
+      k.classList.add('open');
     });
   });
 
+  // Tutup Semua
   btnCollapseAll.addEventListener('click', () => {
     document.querySelectorAll('.sektor-card').forEach(c => c.classList.remove('open'));
     document.querySelectorAll('.kelompok-item').forEach(k => k.classList.remove('open'));
+    document.querySelectorAll('.subkelompok-box').forEach(b => b.classList.remove('open'));
   });
 
   // Clear Active Filter Banner
@@ -1451,7 +1672,14 @@ footer a:hover {
     render();
   });
 
-  // Tipe Buttons
+  // Tombol "Tutup & Kembali ke Daftar Isi" dari Search Banner
+  btnBackToTOC.addEventListener('click', () => {
+    q.value = '';
+    clearBtn.style.display = 'none';
+    render();
+  });
+
+  // Filter Tipe Buttons
   tipeBtns.forEach(b => {
     b.addEventListener('click', () => {
       tipeBtns.forEach(x => x.classList.remove('active'));
@@ -1461,7 +1689,7 @@ footer a:hover {
     });
   });
 
-  // Search input
+  // Search Input Handler: Otomatis sembunyikan TOC saat ada teks
   q.addEventListener('input', () => {
     clearBtn.style.display = q.value ? 'block' : 'none';
     render();
@@ -1486,7 +1714,7 @@ footer a:hover {
     render();
   });
 
-  // Delegated clicks: Copy code badge & click kelompok pill in table
+  // Delegated clicks: Copy badge & jump from table kelompok pill
   document.addEventListener('click', (e) => {
     const copyBtn = e.target.closest('.kode-badge');
     if (copyBtn) {
@@ -1501,13 +1729,20 @@ footer a:hover {
       activeKelompok = kelPill.dataset.kelompok || '';
       activeSubkelompok = kelPill.dataset.subkelompok || '';
 
-      // Auto open corresponding sektor card
+      // Auto open corresponding sektor card & branch
       const targetCard = document.getElementById('sektorCard_' + activeSubsektor);
       if (targetCard) {
         targetCard.classList.add('open');
         if (activeKelompok) {
           const targetKel = targetCard.querySelector(`.kelompok-item[data-kelompok="${activeKelompok}"]`);
-          if (targetKel && targetKel.querySelector('.subkelompok-list')) targetKel.classList.add('open');
+          if (targetKel) {
+            targetKel.classList.add('open');
+            const s = TOC.get(activeSubsektor);
+            const k = s?.kelompoks.get(activeKelompok);
+            if (k && k.subkelompoks.size === 0) {
+              populateLeafKomoditas(`leaf_${activeSubsektor}_${activeKelompok}`, k.items);
+            }
+          }
         }
       }
       render();
