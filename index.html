@@ -1053,8 +1053,7 @@ footer a:hover {
         <span>Daftar Isi Master Komoditas (Pilih Bertahap hingga Unit Terkecil)</span>
       </div>
       <div class="toc-actions">
-        <button class="btn-toc-toggle" id="btnExpandAll">Buka Sektor & Kelompok</button>
-        <button class="btn-toc-toggle" id="btnCollapseAll">Tutup Semua</button>
+        <button class="btn-toc-toggle" id="btnToggleAll">Buka Semua</button>
       </div>
     </div>
 
@@ -1086,8 +1085,8 @@ footer a:hover {
             <th class="td-kode">Kode</th>
             <th>Komoditas</th>
             <th>Satuan</th>
-            <th>Kelompok</th>
             <th>Subsektor / Sektor</th>
+            <th>Kelompok</th>
             <th>Tipe</th>
           </tr>
         </thead>
@@ -1154,8 +1153,7 @@ footer a:hover {
 
   // TOC Elements
   const tocCardsContainer = document.getElementById('tocCardsContainer');
-  const btnExpandAll = document.getElementById('btnExpandAll');
-  const btnCollapseAll = document.getElementById('btnCollapseAll');
+  const btnToggleAll = document.getElementById('btnToggleAll');
   const activeFilterBanner = document.getElementById('activeFilterBanner');
   const activeFilterLabel = document.getElementById('activeFilterLabel');
   const btnClearActiveFilter = document.getElementById('btnClearActiveFilter');
@@ -1453,14 +1451,16 @@ footer a:hover {
 
     let results = DATA;
 
-    if (activeSubsektor) results = results.filter(d => d.subsektor === activeSubsektor);
-    if (activeKelompok) results = results.filter(d => d.kelompok === activeKelompok);
-    if (activeSubkelompok) results = results.filter(d => d.subsektor === '1' && d.subkelompok === activeSubkelompok);
+    if (!isSearching) {
+      if (activeSubsektor) results = results.filter(d => d.subsektor === activeSubsektor);
+      if (activeKelompok) results = results.filter(d => d.kelompok === activeKelompok);
+      if (activeSubkelompok) results = results.filter(d => d.subsektor === '1' && d.subkelompok === activeSubkelompok);
+    }
     if (activeTipe) results = results.filter(d => d.tipe === activeTipe);
 
     if (isSearching) {
       results = results.filter(d => {
-        const text = (d.nama + ' ' + d.kode + ' ' + d.kelompokNama + ' ' + d.kelompok + ' ' + (d.subkelompokNama || '')).toLowerCase();
+        const text = (d.nama + ' ' + d.kode + ' ' + d.subsektorNama + ' ' + d.kelompokNama + ' ' + d.kelompok + ' ' + (d.subkelompokNama || '')).toLowerCase();
         return terms.every(t => text.includes(t));
       });
     }
@@ -1520,12 +1520,12 @@ footer a:hover {
           </td>
           <td class="td-nama">${hl(d.nama, terms)}</td>
           <td class="td-satuan">${satText}</td>
+          <td><span class="pill pill-subsektor">${esc(d.subsektorNama)}</span></td>
           <td>
             <span class="pill pill-kelompok" data-subsektor="${d.subsektor}" data-kelompok="${d.kelompok}" data-subkelompok="${d.subkelompok || ''}" title="Saring kelompok ini">
               ${hl(kelDisplay, terms)}
             </span>
           </td>
-          <td><span class="pill pill-subsektor">${esc(d.subsektorNama)}</span></td>
           <td>${tipePill}</td>
         </tr>
       `);
@@ -1541,10 +1541,10 @@ footer a:hover {
           <div class="card-meta">
             <span class="card-satuan-box">${satText}</span>
             ${tipePill}
+            <span class="pill pill-subsektor">${esc(d.subsektorNama)}</span>
             <span class="pill pill-kelompok" data-subsektor="${d.subsektor}" data-kelompok="${d.kelompok}" data-subkelompok="${d.subkelompok || ''}">
               ${hl(kelDisplay, terms)}
             </span>
-            <span class="pill pill-subsektor">${esc(d.subsektorNama)}</span>
           </div>
         </div>
       `);
@@ -1642,26 +1642,29 @@ footer a:hover {
     }
   });
 
-  // Buka Sektor & Kelompok
-  btnExpandAll.addEventListener('click', () => {
-    document.querySelectorAll('.sektor-card').forEach(c => c.classList.add('open'));
-    document.querySelectorAll('.kelompok-item').forEach(k => {
-      const subId = k.dataset.subsektor;
-      const kelCode = k.dataset.kelompok;
-      const s = TOC.get(subId);
-      const itemK = s?.kelompoks.get(kelCode);
-      if (itemK && itemK.subkelompoks.size === 0) {
-        populateLeafKomoditas(`leaf_${subId}_${kelCode}`, itemK.items);
-      }
-      k.classList.add('open');
-    });
-  });
-
-  // Tutup Semua
-  btnCollapseAll.addEventListener('click', () => {
-    document.querySelectorAll('.sektor-card').forEach(c => c.classList.remove('open'));
-    document.querySelectorAll('.kelompok-item').forEach(k => k.classList.remove('open'));
-    document.querySelectorAll('.subkelompok-box').forEach(b => b.classList.remove('open'));
+  // Buka / Tutup Semua (1 Tombol Toggle)
+  let isAllExpanded = false;
+  btnToggleAll.addEventListener('click', () => {
+    isAllExpanded = !isAllExpanded;
+    if (isAllExpanded) {
+      document.querySelectorAll('.sektor-card').forEach(c => c.classList.add('open'));
+      document.querySelectorAll('.kelompok-item').forEach(k => {
+        const subId = k.dataset.subsektor;
+        const kelCode = k.dataset.kelompok;
+        const s = TOC.get(subId);
+        const itemK = s?.kelompoks.get(kelCode);
+        if (itemK && itemK.subkelompoks.size === 0) {
+          populateLeafKomoditas(`leaf_${subId}_${kelCode}`, itemK.items);
+        }
+        k.classList.add('open');
+      });
+      btnToggleAll.textContent = 'Tutup Semua';
+    } else {
+      document.querySelectorAll('.sektor-card').forEach(c => c.classList.remove('open'));
+      document.querySelectorAll('.kelompok-item').forEach(k => k.classList.remove('open'));
+      document.querySelectorAll('.subkelompok-box').forEach(b => b.classList.remove('open'));
+      btnToggleAll.textContent = 'Buka Semua';
+    }
   });
 
   // Clear Active Filter Banner
@@ -1689,9 +1692,14 @@ footer a:hover {
     });
   });
 
-  // Search Input Handler: Otomatis sembunyikan TOC saat ada teks
+  // Search Input Handler: Otomatis sembunyikan TOC saat ada teks & reset filter subsektor aktif
   q.addEventListener('input', () => {
     clearBtn.style.display = q.value ? 'block' : 'none';
+    if (q.value.trim()) {
+      activeSubsektor = '';
+      activeKelompok = '';
+      activeSubkelompok = '';
+    }
     render();
   });
 
