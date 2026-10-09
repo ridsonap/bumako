@@ -856,6 +856,11 @@ tr:hover {
   margin: 0 .2rem;
 }
 
+.td-kelompok {
+  max-width: 260px;
+  min-width: 140px;
+}
+
 .pill {
   display: inline-block;
   padding: .2rem .5rem;
@@ -870,9 +875,15 @@ tr:hover {
   color: var(--badge-kel-text);
   cursor: pointer;
   transition: opacity .15s;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.35;
+  text-align: left;
+  display: inline-block;
+  max-width: 100%;
 }
 .pill-kelompok:hover {
-  opacity: .8;
+  opacity: .85;
   text-decoration: underline;
 }
 .pill-subsektor {
@@ -950,6 +961,14 @@ mark {
   padding: .15rem .45rem;
   border-radius: 5px;
   font-weight: 500;
+}
+.card-kelompok-row {
+  display: flex;
+  margin-top: .1rem;
+}
+.card-kelompok-row .pill-kelompok {
+  font-size: .75rem;
+  padding: .25rem .55rem;
 }
 
 /* Empty State */
@@ -1136,7 +1155,7 @@ footer a:hover {
             <th>Komoditas</th>
             <th>Satuan</th>
             <th>Subsektor / Sektor</th>
-            <th>Kelompok</th>
+            <th class="td-kelompok">Kelompok</th>
             <th>Tipe</th>
           </tr>
         </thead>
@@ -1565,7 +1584,7 @@ footer a:hover {
           <td class="td-nama">${hl(d.nama, terms)}</td>
           <td class="td-satuan">${satText}</td>
           <td><span class="pill pill-subsektor">${esc(d.subsektorNama)}</span></td>
-          <td>
+          <td class="td-kelompok">
             <span class="pill pill-kelompok" data-subsektor="${d.subsektor}" data-kelompok="${d.kelompok}" data-subkelompok="${d.subkelompok || ''}" title="Saring kelompok ini">
               ${hl(kelDisplay, terms)}
             </span>
@@ -1586,7 +1605,9 @@ footer a:hover {
             <span class="card-satuan-box">${satText}</span>
             ${tipePill}
             <span class="pill pill-subsektor">${esc(d.subsektorNama)}</span>
-            <span class="pill pill-kelompok" data-subsektor="${d.subsektor}" data-kelompok="${d.kelompok}" data-subkelompok="${d.subkelompok || ''}">
+          </div>
+          <div class="card-kelompok-row">
+            <span class="pill pill-kelompok" data-subsektor="${d.subsektor}" data-kelompok="${d.kelompok}" data-subkelompok="${d.subkelompok || ''}" title="Saring kelompok ini">
               ${hl(kelDisplay, terms)}
             </span>
           </div>
@@ -1778,6 +1799,10 @@ footer a:hover {
 
     const kelPill = e.target.closest('.pill-kelompok');
     if (kelPill && kelPill.dataset.subsektor) {
+      if (q.value) {
+        q.value = '';
+        clearBtn.style.display = 'none';
+      }
       activeSubsektor = kelPill.dataset.subsektor;
       activeKelompok = kelPill.dataset.kelompok || '';
       activeSubkelompok = kelPill.dataset.subkelompok || '';
