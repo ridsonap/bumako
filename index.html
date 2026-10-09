@@ -115,6 +115,9 @@ header {
   display: flex;
   align-items: center;
   gap: .75rem;
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
 }
 .brand-logo {
   width: 38px;
@@ -179,14 +182,385 @@ header {
   height: 16px;
 }
 
+/* Mode Switcher Nav (Bertahap vs Cari) */
+.mode-nav-container {
+  background: var(--bg-surface);
+  border-bottom: 1px solid var(--border-light);
+}
+.mode-nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: .4rem 1rem;
+  display: flex;
+  gap: .5rem;
+}
+.mode-tab-btn {
+  background: none;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  padding: .5rem .95rem;
+  border-radius: 9px;
+  font-size: .85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  transition: all .15s ease;
+}
+.mode-tab-btn:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+}
+.mode-tab-btn.active {
+  background: var(--brand-surface);
+  border-color: var(--brand-border);
+  color: var(--brand-text);
+}
+.mode-tab-btn svg {
+  width: 17px;
+  height: 17px;
+}
+
 /* Main Container */
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 1rem 1rem 3rem;
+  padding: 1.25rem 1rem 3.5rem;
 }
 
-/* Control Panel */
+/* =======================================================
+   VIEW 1: PILIH BERTAHAP (KBLI HIERARCHY)
+   ======================================================= */
+.breadcrumb-bar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 10px;
+  padding: .6rem 1rem;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  overflow-x: auto;
+  white-space: nowrap;
+  box-shadow: var(--shadow-sm);
+}
+.breadcrumb-list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .82rem;
+}
+.breadcrumb-item {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+}
+.breadcrumb-btn {
+  background: none;
+  border: none;
+  color: var(--brand);
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  padding: .15rem .35rem;
+  border-radius: 4px;
+  transition: background .15s ease;
+}
+.breadcrumb-btn:hover {
+  background: var(--brand-surface);
+  text-decoration: underline;
+}
+.breadcrumb-sep {
+  color: var(--text-dim);
+  font-size: .75rem;
+}
+.breadcrumb-current {
+  color: var(--text-main);
+  font-weight: 600;
+  padding: .15rem .35rem;
+}
+
+/* Stage Headers */
+.stage-hero {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+}
+@media (min-width: 768px) {
+  .stage-hero {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.stage-step-tag {
+  display: inline-block;
+  font-size: .7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--brand);
+  background: var(--brand-surface);
+  border: 1px solid var(--brand-border);
+  padding: .15rem .5rem;
+  border-radius: 6px;
+  margin-bottom: .25rem;
+}
+.stage-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+}
+.stage-desc {
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+.stage-hero-action {
+  margin-top: .5rem;
+}
+@media (min-width: 768px) {
+  .stage-hero-action {
+    margin-top: 0;
+  }
+}
+
+/* Subsektor Grid (Stage 1) */
+.subsektor-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+.subsektor-card {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-light);
+  border-radius: 14px;
+  padding: 1.25rem;
+  cursor: pointer;
+  transition: all .2s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+.subsektor-card:hover {
+  border-color: var(--brand);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  background: var(--bg-hover);
+}
+.subsektor-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .75rem;
+}
+.subsektor-badge-code {
+  font-family: var(--font-mono);
+  font-size: .75rem;
+  font-weight: 700;
+  background: var(--bg-subtle);
+  color: var(--text-muted);
+  border: 1px solid var(--border-strong);
+  padding: .2rem .55rem;
+  border-radius: 6px;
+}
+.subsektor-card-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: .6rem;
+  line-height: 1.3;
+}
+.subsektor-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .4rem;
+  font-size: .78rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+.subsektor-stat-pill {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: .15rem .5rem;
+  border-radius: 6px;
+  font-weight: 500;
+}
+.subsektor-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .8rem;
+  font-weight: 600;
+  color: var(--brand);
+  border-top: 1px solid var(--border-light);
+  padding-top: .75rem;
+  margin-top: auto;
+}
+.subsektor-card-footer svg {
+  width: 16px;
+  height: 16px;
+  transition: transform .15s ease;
+}
+.subsektor-card:hover .subsektor-card-footer svg {
+  transform: translateX(3px);
+}
+
+/* Stage Toolbar (Stage 2 & 3) */
+.stage-toolbar {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: .75rem 1rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+  box-shadow: var(--shadow-sm);
+}
+@media (min-width: 640px) {
+  .stage-toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+.stage-search-input {
+  width: 100%;
+  max-width: 320px;
+  padding: .5rem .85rem;
+  border: 1.5px solid var(--border-strong);
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: .85rem;
+  background: var(--bg-surface);
+  color: var(--text-main);
+  outline: none;
+  transition: border-color .15s ease;
+}
+.stage-search-input:focus {
+  border-color: var(--brand);
+}
+.btn-back-stage {
+  background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  color: var(--text-main);
+  padding: .45rem .85rem;
+  border-radius: 8px;
+  font-size: .8rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  transition: all .15s ease;
+  white-space: nowrap;
+}
+.btn-back-stage:hover {
+  background: var(--bg-hover);
+  border-color: var(--border-strong);
+}
+.btn-back-stage svg {
+  width: 15px;
+  height: 15px;
+}
+
+/* Kelompok Grid (Stage 2) */
+.kelompok-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: .85rem;
+}
+.kelompok-card {
+  background: var(--bg-surface);
+  border: 1.5px solid var(--border-light);
+  border-radius: 12px;
+  padding: 1rem 1.15rem;
+  cursor: pointer;
+  transition: all .15s ease;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: left;
+  box-shadow: var(--shadow-sm);
+}
+.kelompok-card:hover {
+  border-color: var(--brand);
+  background: var(--bg-hover);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+.kelompok-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: .5rem;
+}
+.kelompok-badge-code {
+  font-family: var(--font-mono);
+  font-size: .8rem;
+  font-weight: 700;
+  background: var(--badge-kel-bg);
+  color: var(--badge-kel-text);
+  padding: .2rem .5rem;
+  border-radius: 6px;
+}
+.kelompok-card-title {
+  font-size: .95rem;
+  font-weight: 700;
+  color: var(--text-main);
+  line-height: 1.35;
+  margin-bottom: .6rem;
+}
+.kelompok-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: .78rem;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-light);
+  padding-top: .6rem;
+}
+.kelompok-card-bottom svg {
+  width: 15px;
+  height: 15px;
+  color: var(--brand);
+}
+
+/* Stage 3 summary header */
+.stage3-summary {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-light);
+  border-radius: 12px;
+  padding: .85rem 1.15rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .5rem;
+  font-size: .85rem;
+}
+.stage3-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+}
+
+/* =======================================================
+   VIEW 2: PENCARIAN CEPAT (SEARCH CENTRIC)
+   ======================================================= */
 .panel {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
@@ -247,7 +621,6 @@ main {
   height: 16px;
 }
 
-/* Filter controls */
 .filter-row {
   display: flex;
   flex-direction: column;
@@ -269,7 +642,7 @@ main {
   border: 1px solid var(--border-light);
   gap: 2px;
 }
-.tipe-btn {
+.tipe-btn, .stage-tipe-btn {
   background: none;
   border: none;
   padding: .4rem .85rem;
@@ -282,17 +655,16 @@ main {
   transition: all .15s ease;
   white-space: nowrap;
 }
-.tipe-btn:hover {
+.tipe-btn:hover, .stage-tipe-btn:hover {
   color: var(--text-main);
 }
-.tipe-btn.active {
+.tipe-btn.active, .stage-tipe-btn.active {
   background: var(--bg-surface-elevated);
   color: var(--text-main);
   font-weight: 600;
   box-shadow: var(--shadow-sm);
 }
 
-/* Subsektor Dropdown */
 .subsektor-select {
   padding: .5rem 2.25rem .5rem .85rem;
   border-radius: 9px;
@@ -350,7 +722,9 @@ main {
   text-decoration: underline;
 }
 
-/* Table Design (Desktop) */
+/* =======================================================
+   SHARED DATA TABLES & CARDS
+   ======================================================= */
 .table-container {
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
@@ -393,7 +767,6 @@ tr:hover {
   background: var(--bg-hover);
 }
 
-/* Cell specifics */
 .td-kode {
   width: 120px;
 }
@@ -451,6 +824,12 @@ tr:hover {
 .pill-kelompok {
   background: var(--badge-kel-bg);
   color: var(--badge-kel-text);
+  cursor: pointer;
+  transition: opacity .15s;
+}
+.pill-kelompok:hover {
+  opacity: .8;
+  text-decoration: underline;
 }
 .pill-subsektor {
   background: var(--bg-subtle);
@@ -474,7 +853,7 @@ mark {
   font-weight: inherit;
 }
 
-/* Mobile Card View (shown only on small screen) */
+/* Mobile Card View */
 .mobile-cards {
   display: none;
   flex-direction: column;
@@ -602,13 +981,13 @@ footer a:hover {
 
 <header>
   <div class="header-inner">
-    <div class="brand-group">
+    <a href="#bertahap" class="brand-group" id="brandHomeLink">
       <div class="brand-logo" aria-hidden="true">🌾</div>
       <div class="brand-titles">
         <h1>BUMAKO <span class="version-tag">SPDT NTP 2026</span></h1>
         <p>Buku Master Komoditas BPS</p>
       </div>
-    </div>
+    </a>
     <div class="header-actions">
       <button class="theme-toggle-btn" id="themeToggle" title="Ganti Tema (Gelap / Terang)" aria-label="Toggle theme">
         <svg id="themeIconSun" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.8" stroke="currentColor" style="display:none">
@@ -623,79 +1002,216 @@ footer a:hover {
   </div>
 </header>
 
-<main>
-  <!-- Search & Filters -->
-  <section class="panel">
-    <div class="search-box">
-      <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+<!-- Top Segmented Navigation Tabs -->
+<div class="mode-nav-container">
+  <div class="mode-nav-inner">
+    <button class="mode-tab-btn active" id="btnModeBertahap" data-mode="bertahap">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6A2.25 2.25 0 0 1 6 3.75h2.25A2.25 2.25 0 0 1 10.5 6v2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25V6ZM3.75 15.75A2.25 2.25 0 0 1 6 13.5h2.25a2.25 2.25 0 0 1-2.25 2.25H6a2.25 2.25 0 0 1-2.25-2.25v-2.25ZM13.5 6a2.25 2.25 0 0 1 2.25-2.25H18A2.25 2.25 0 0 1 20.25 6v2.25A2.25 2.25 0 0 1 18 10.5h-2.25A2.25 2.25 0 0 1 13.5 8.25V6ZM13.5 15.75a2.25 2.25 0 0 1 2.25-2.25H18a2.25 2.25 0 0 1 2.25 2.25V18A2.25 2.25 0 0 1 18 20.25h-2.25A2.25 2.25 0 0 1 13.5 18v-2.25Z" />
+      </svg>
+      <span>Pilih Bertahap (Hierarki)</span>
+    </button>
+    <button class="mode-tab-btn" id="btnModeCari" data-mode="cari">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
       </svg>
-      <input type="search" id="q" placeholder="Cari nama komoditas, kode 7 digit, atau kelompok…" autocomplete="off" spellcheck="false" autofocus>
-      <button class="clear-search-btn" id="clearBtn" title="Bersihkan pencarian">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-          <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
-        </svg>
-      </button>
+      <span>Pencarian Cepat</span>
+    </button>
+  </div>
+</div>
+
+<main>
+  <!-- =======================================================
+       VIEW 1: PILIH BERTAHAP (KBLI HIERARCHY)
+       ======================================================= -->
+  <section id="viewBertahap">
+    <!-- Breadcrumbs -->
+    <nav class="breadcrumb-bar" id="breadcrumbBar" aria-label="Navigasi Hierarki"></nav>
+
+    <!-- TAHAP 1: PILIH SUBSEKTOR -->
+    <div id="stageSubsektor">
+      <div class="stage-hero">
+        <div>
+          <span class="stage-step-tag">Tahap 1 &bull; Subsektor</span>
+          <h2 class="stage-title">Pilih Subsektor Pertanian</h2>
+          <p class="stage-desc">Pilih salah satu dari 7 subsektor untuk menjelajahi kelompok dan komoditas.</p>
+        </div>
+        <div class="stage-hero-action">
+          <button class="btn-back-stage" id="btnQuickSearchHero">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+            </svg>
+            <span>Cari Cepat Kata Kunci</span>
+          </button>
+        </div>
+      </div>
+      <div class="subsektor-grid" id="subsektorGrid"></div>
     </div>
 
-    <div class="filter-row">
-      <!-- Tipe Switch -->
-      <div class="tipe-tabs">
-        <button class="tipe-btn active" data-t="">Semua Tipe</button>
-        <button class="tipe-btn" data-t="produksi">Produksi</button>
-        <button class="tipe-btn" data-t="biaya">Biaya Produksi</button>
+    <!-- TAHAP 2: PILIH KELOMPOK (4 DIGIT) -->
+    <div id="stageKelompok" style="display:none">
+      <div class="stage-hero">
+        <div>
+          <span class="stage-step-tag">Tahap 2 &bull; Kelompok</span>
+          <h2 class="stage-title" id="kelompokHeroTitle">Kelompok Komoditas</h2>
+          <p class="stage-desc" id="kelompokHeroDesc">Pilih kelompok 4-digit untuk melihat daftar rincian komoditas.</p>
+        </div>
+        <div class="stage-hero-action">
+          <button class="btn-back-stage" id="btnBackToSubsektor">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+            </svg>
+            <span>Ganti Subsektor</span>
+          </button>
+        </div>
       </div>
 
-      <!-- Subsektor Dropdown -->
-      <select id="subSelect" class="subsektor-select" aria-label="Pilih Subsektor">
-        <option value="">Semua Subsektor</option>
-        <option value="2">Tanaman Pangan</option>
-        <option value="3">Hortikultura</option>
-        <option value="4">Perkebunan Rakyat</option>
-        <option value="5">Peternakan</option>
-        <option value="6">Perikanan Tangkap</option>
-        <option value="7">Perikanan Budidaya</option>
-        <option value="8">Kehutanan</option>
-      </select>
+      <div class="stage-toolbar">
+        <div class="tipe-tabs">
+          <button class="stage-tipe-btn active" data-t="">Semua Tipe</button>
+          <button class="stage-tipe-btn" data-t="produksi">Produksi</button>
+          <button class="stage-tipe-btn" data-t="biaya">Biaya Produksi</button>
+        </div>
+        <input type="search" id="kelompokSearch" class="stage-search-input" placeholder="Saring nama / kode kelompok…" autocomplete="off">
+      </div>
+
+      <div class="kelompok-grid" id="kelompokGrid"></div>
+      <div class="empty-box" id="kelompokEmptyBox">
+        <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+        </svg>
+        <h3>Tidak ada kelompok yang cocok</h3>
+        <p>Coba sesuaikan kata kunci atau ubah filter tipe.</p>
+      </div>
+    </div>
+
+    <!-- TAHAP 3: RINCIAN KOMODITAS (7 DIGIT) -->
+    <div id="stageKomoditas" style="display:none">
+      <div class="stage3-summary">
+        <div class="stage3-title-wrap">
+          <span class="kelompok-badge-code" id="komoditasHeaderKode">0000</span>
+          <div>
+            <strong id="komoditasHeaderNama" style="font-size:1rem; color:var(--text-main);">Kelompok</strong>
+            <div id="komoditasHeaderMeta" style="font-size:.78rem; color:var(--text-muted); margin-top:.1rem;">Subsektor</div>
+          </div>
+        </div>
+        <button class="btn-back-stage" id="btnBackToKelompok">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" />
+          </svg>
+          <span>Pilih Kelompok Lain</span>
+        </button>
+      </div>
+
+      <div class="stage-toolbar">
+        <div id="stageKomoditasCount" style="font-size:.85rem; color:var(--text-muted);">Memuat komoditas…</div>
+        <input type="search" id="stageKomoditasSearch" class="stage-search-input" placeholder="Saring dalam kelompok ini…" autocomplete="off">
+      </div>
+
+      <div class="table-container">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th class="td-kode">Kode</th>
+                <th>Komoditas</th>
+                <th>Satuan</th>
+                <th>Kelompok</th>
+                <th>Tipe</th>
+              </tr>
+            </thead>
+            <tbody id="stageKomoditasTbody"></tbody>
+          </table>
+        </div>
+      </div>
+      <div class="mobile-cards" id="stageKomoditasCards"></div>
+
+      <div class="empty-box" id="stageKomoditasEmptyBox">
+        <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+        </svg>
+        <h3>Tidak ada komoditas yang cocok</h3>
+        <p>Coba periksa kata kunci filter Anda.</p>
+      </div>
     </div>
   </section>
 
-  <!-- Results Count & Reset Helper -->
-  <div class="results-meta">
-    <div id="infoText">Memuat komoditas…</div>
-    <button class="reset-btn" id="resetBtn">Reset Filter</button>
-  </div>
+  <!-- =======================================================
+       VIEW 2: PENCARIAN CEPAT (SEARCH CENTRIC)
+       ======================================================= -->
+  <section id="viewCari" style="display:none">
+    <div class="panel">
+      <div class="search-box">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+        </svg>
+        <input type="search" id="q" placeholder="Cari nama komoditas, kode 7 digit, atau kelompok…" autocomplete="off" spellcheck="false">
+        <button class="clear-search-btn" id="clearBtn" title="Bersihkan pencarian">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+          </svg>
+        </button>
+      </div>
 
-  <!-- Desktop Table -->
-  <div class="table-container">
-    <div class="table-wrap">
-      <table>
-        <thead>
-          <tr>
-            <th class="td-kode">Kode</th>
-            <th>Komoditas</th>
-            <th>Satuan</th>
-            <th>Kelompok</th>
-            <th>Subsektor</th>
-            <th>Tipe</th>
-          </tr>
-        </thead>
-        <tbody id="tbody"></tbody>
-      </table>
+      <div class="filter-row">
+        <!-- Tipe Switch -->
+        <div class="tipe-tabs">
+          <button class="tipe-btn active" data-t="">Semua Tipe</button>
+          <button class="tipe-btn" data-t="produksi">Produksi</button>
+          <button class="tipe-btn" data-t="biaya">Biaya Produksi</button>
+        </div>
+
+        <!-- Subsektor Dropdown -->
+        <select id="subSelect" class="subsektor-select" aria-label="Pilih Subsektor">
+          <option value="">Semua Subsektor</option>
+          <option value="2">Tanaman Pangan</option>
+          <option value="3">Hortikultura</option>
+          <option value="4">Perkebunan Rakyat</option>
+          <option value="5">Peternakan</option>
+          <option value="6">Perikanan Tangkap</option>
+          <option value="7">Perikanan Budidaya</option>
+          <option value="8">Kehutanan</option>
+        </select>
+      </div>
     </div>
-  </div>
 
-  <!-- Mobile Cards View -->
-  <div class="mobile-cards" id="mobileCards"></div>
+    <!-- Results Count & Reset Helper -->
+    <div class="results-meta">
+      <div id="infoText">Memuat komoditas…</div>
+      <button class="reset-btn" id="resetBtn">Reset Filter</button>
+    </div>
 
-  <!-- Empty Box -->
-  <div class="empty-box" id="emptyBox">
-    <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
-    </svg>
-    <h3>Tidak ada komoditas ditemukan</h3>
-    <p>Coba periksa ejaan atau ubah filter subsektor dan tipe.</p>
-  </div>
+    <!-- Desktop Table -->
+    <div class="table-container">
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th class="td-kode">Kode</th>
+              <th>Komoditas</th>
+              <th>Satuan</th>
+              <th>Kelompok</th>
+              <th>Subsektor</th>
+              <th>Tipe</th>
+            </tr>
+          </thead>
+          <tbody id="tbody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Mobile Cards View -->
+    <div class="mobile-cards" id="mobileCards"></div>
+
+    <!-- Empty Box -->
+    <div class="empty-box" id="emptyBox">
+      <svg class="empty-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/>
+      </svg>
+      <h3>Tidak ada komoditas ditemukan</h3>
+      <p>Coba periksa ejaan atau ubah filter subsektor dan tipe.</p>
+    </div>
+  </section>
 </main>
 
 <!-- Toast -->
@@ -715,6 +1231,49 @@ footer a:hover {
 <script>
 (function() {
   const root = document.documentElement;
+
+  // Header & Theme Elements
+  const themeToggle = document.getElementById('themeToggle');
+  const themeIconSun = document.getElementById('themeIconSun');
+  const themeIconMoon = document.getElementById('themeIconMoon');
+  const themeLabel = document.getElementById('themeLabel');
+  const toast = document.getElementById('toast');
+  const toastKode = document.getElementById('toastKode');
+  let toastTimer;
+
+  // Mode Elements
+  const btnModeBertahap = document.getElementById('btnModeBertahap');
+  const btnModeCari = document.getElementById('btnModeCari');
+  const viewBertahap = document.getElementById('viewBertahap');
+  const viewCari = document.getElementById('viewCari');
+  const btnQuickSearchHero = document.getElementById('btnQuickSearchHero');
+
+  // Bertahap Elements
+  const breadcrumbBar = document.getElementById('breadcrumbBar');
+  const stageSubsektor = document.getElementById('stageSubsektor');
+  const stageKelompok = document.getElementById('stageKelompok');
+  const stageKomoditas = document.getElementById('stageKomoditas');
+
+  const subsektorGrid = document.getElementById('subsektorGrid');
+  const kelompokGrid = document.getElementById('kelompokGrid');
+  const kelompokEmptyBox = document.getElementById('kelompokEmptyBox');
+  const kelompokHeroTitle = document.getElementById('kelompokHeroTitle');
+  const kelompokHeroDesc = document.getElementById('kelompokHeroDesc');
+  const btnBackToSubsektor = document.getElementById('btnBackToSubsektor');
+  const kelompokSearch = document.getElementById('kelompokSearch');
+  const stageTipeBtns = document.querySelectorAll('.stage-tipe-btn');
+
+  const komoditasHeaderKode = document.getElementById('komoditasHeaderKode');
+  const komoditasHeaderNama = document.getElementById('komoditasHeaderNama');
+  const komoditasHeaderMeta = document.getElementById('komoditasHeaderMeta');
+  const btnBackToKelompok = document.getElementById('btnBackToKelompok');
+  const stageKomoditasCount = document.getElementById('stageKomoditasCount');
+  const stageKomoditasSearch = document.getElementById('stageKomoditasSearch');
+  const stageKomoditasTbody = document.getElementById('stageKomoditasTbody');
+  const stageKomoditasCards = document.getElementById('stageKomoditasCards');
+  const stageKomoditasEmptyBox = document.getElementById('stageKomoditasEmptyBox');
+
+  // Cari Elements
   const q = document.getElementById('q');
   const clearBtn = document.getElementById('clearBtn');
   const tbody = document.getElementById('tbody');
@@ -722,22 +1281,50 @@ footer a:hover {
   const infoText = document.getElementById('infoText');
   const resetBtn = document.getElementById('resetBtn');
   const emptyBox = document.getElementById('emptyBox');
-  const toast = document.getElementById('toast');
-  const toastKode = document.getElementById('toastKode');
-  const themeToggle = document.getElementById('themeToggle');
-  const themeIconSun = document.getElementById('themeIconSun');
-  const themeIconMoon = document.getElementById('themeIconMoon');
-  const themeLabel = document.getElementById('themeLabel');
-
   const tipeBtns = document.querySelectorAll('.tipe-btn');
   const subSelect = document.getElementById('subSelect');
 
-  let activeTipe = '';
-  let activeSub = '';
-  let toastTimer;
+  // State
+  let currentMode = 'bertahap'; // 'bertahap' or 'cari'
+  let activeSubsektor = null;  // '2'..'8'
+  let activeKelompok = null;   // '2101'..
+  let stageKelompokTipe = '';  // '' | 'produksi' | 'biaya'
+  let activeSearchTipe = '';
+  let activeSearchSub = '';
   const MAX_RENDER = 300;
 
-  // 1. Theme Logic (Default strictly light, persistent if manually changed)
+  // 1. Build Metadata Hierarchy from DATA
+  const HIERARCHY = new Map();
+  DATA.forEach(item => {
+    if (!HIERARCHY.has(item.subsektor)) {
+      HIERARCHY.set(item.subsektor, {
+        id: item.subsektor,
+        nama: item.subsektorNama,
+        total: 0,
+        prodCount: 0,
+        biayaCount: 0,
+        kelompokMap: new Map()
+      });
+    }
+    const sub = HIERARCHY.get(item.subsektor);
+    sub.total++;
+    if (item.tipe === 'produksi') sub.prodCount++;
+    else sub.biayaCount++;
+
+    if (!sub.kelompokMap.has(item.kelompok)) {
+      sub.kelompokMap.set(item.kelompok, {
+        kode: item.kelompok,
+        nama: item.kelompokNama,
+        tipe: item.tipe,
+        subsektor: item.subsektor,
+        subsektorNama: item.subsektorNama,
+        items: []
+      });
+    }
+    sub.kelompokMap.get(item.kelompok).items.push(item);
+  });
+
+  // 2. Theme Logic (Default light)
   function initTheme() {
     const saved = localStorage.getItem('bumako_theme');
     const theme = saved || 'light';
@@ -763,67 +1350,7 @@ footer a:hover {
     setTheme(current === 'light' ? 'dark' : 'light');
   });
 
-  // 2. Filter Listeners
-  tipeBtns.forEach(b => {
-    b.addEventListener('click', () => {
-      tipeBtns.forEach(x => x.classList.remove('active'));
-      b.classList.add('active');
-      activeTipe = b.dataset.t;
-      render();
-    });
-  });
-
-  subSelect.addEventListener('change', () => {
-    activeSub = subSelect.value;
-    render();
-  });
-
-  q.addEventListener('input', () => {
-    clearBtn.style.display = q.value ? 'block' : 'none';
-    render();
-  });
-
-  clearBtn.addEventListener('click', () => {
-    q.value = '';
-    clearBtn.style.display = 'none';
-    q.focus();
-    render();
-  });
-
-  resetBtn.addEventListener('click', () => {
-    q.value = '';
-    clearBtn.style.display = 'none';
-    activeTipe = '';
-    activeSub = '';
-    subSelect.value = '';
-    tipeBtns.forEach((b, i) => b.classList.toggle('active', i === 0));
-    render();
-  });
-
-  // Shortcut key '/' or Ctrl+K / Cmd+K to focus search
-  window.addEventListener('keydown', (e) => {
-    if ((e.key === '/' && document.activeElement !== q) || ((e.ctrlKey || e.metaKey) && e.key === 'k')) {
-      e.preventDefault();
-      q.focus();
-      q.select();
-    }
-  });
-
-  function esc(s) {
-    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-  }
-
-  function hl(text, terms) {
-    if (!terms || terms.length === 0) return esc(text);
-    let escaped = esc(text);
-    for (const t of terms) {
-      const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
-      escaped = escaped.replace(re, '<mark>$1</mark>');
-    }
-    return escaped;
-  }
-
-  // Copy Code to Clipboard
+  // 3. Copy Code
   function copyCode(k) {
     if (navigator.clipboard && navigator.clipboard.writeText) {
       navigator.clipboard.writeText(k);
@@ -841,14 +1368,407 @@ footer a:hover {
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2000);
   }
 
-  // 3. Render
-  function render() {
+  function esc(s) {
+    return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  }
+
+  function hl(text, terms) {
+    if (!terms || terms.length === 0) return esc(text);
+    let escaped = esc(text);
+    for (const t of terms) {
+      const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      escaped = escaped.replace(re, '<mark>$1</mark>');
+    }
+    return escaped;
+  }
+
+  const COPY_SVG = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg>';
+
+  // 4. Render Bertahap: Stage 1 (Subsektor)
+  function renderStageSubsektor() {
+    stageSubsektor.style.display = 'block';
+    stageKelompok.style.display = 'none';
+    stageKomoditas.style.display = 'none';
+
+    // Render breadcrumbs
+    breadcrumbBar.innerHTML = `
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item"><span class="breadcrumb-current">Semua Subsektor</span></li>
+      </ol>
+    `;
+
+    // Render 7 Cards
+    const cards = [];
+    HIERARCHY.forEach(sub => {
+      cards.push(`
+        <div class="subsektor-card" data-sub="${sub.id}">
+          <div>
+            <div class="subsektor-card-top">
+              <span class="subsektor-badge-code">Subsektor ${sub.id}</span>
+              <span class="pill pill-subsektor">${sub.kelompokMap.size} Kelompok</span>
+            </div>
+            <h3 class="subsektor-card-title">${esc(sub.nama)}</h3>
+            <div class="subsektor-stats">
+              <span class="subsektor-stat-pill"><strong>${sub.total}</strong> Komoditas</span>
+              <span class="subsektor-stat-pill">${sub.prodCount} Produksi</span>
+              <span class="subsektor-stat-pill">${sub.biayaCount} Biaya</span>
+            </div>
+          </div>
+          <div class="subsektor-card-footer">
+            <span>Pilih Subsektor</span>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+          </div>
+        </div>
+      `);
+    });
+    subsektorGrid.innerHTML = cards.join('');
+  }
+
+  // 5. Render Bertahap: Stage 2 (Kelompok)
+  function renderStageKelompok(subId) {
+    const sub = HIERARCHY.get(subId);
+    if (!sub) return renderStageSubsektor();
+
+    activeSubsektor = subId;
+    stageSubsektor.style.display = 'none';
+    stageKelompok.style.display = 'block';
+    stageKomoditas.style.display = 'none';
+
+    // Breadcrumbs
+    breadcrumbBar.innerHTML = `
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+          <button class="breadcrumb-btn" onclick="location.hash='#bertahap'">Semua Subsektor</button>
+        </li>
+        <li class="breadcrumb-item"><span class="breadcrumb-sep">/</span></li>
+        <li class="breadcrumb-item"><span class="breadcrumb-current">${esc(sub.nama)}</span></li>
+      </ol>
+    `;
+
+    kelompokHeroTitle.textContent = 'Subsektor ' + sub.id + ': ' + sub.nama;
+    document.getElementById('kelompokHeroDesc').textContent =
+      'Menampilkan kelompok komoditas untuk subsektor ' + sub.nama + ' (' + sub.total + ' komoditas terdaftar).';
+
+    renderKelompokList();
+  }
+
+  function renderKelompokList() {
+    const sub = HIERARCHY.get(activeSubsektor);
+    if (!sub) return;
+
+    const term = kelompokSearch.value.trim().toLowerCase();
+    let groups = Array.from(sub.kelompokMap.values());
+
+    if (stageKelompokTipe) {
+      groups = groups.filter(g => g.tipe === stageKelompokTipe);
+    }
+    if (term) {
+      groups = groups.filter(g => g.kode.toLowerCase().includes(term) || g.nama.toLowerCase().includes(term));
+    }
+
+    if (groups.length === 0) {
+      kelompokGrid.innerHTML = '';
+      kelompokEmptyBox.style.display = 'block';
+      return;
+    }
+    kelompokEmptyBox.style.display = 'none';
+
+    const cards = groups.map(g => {
+      const tipePill = g.tipe === 'produksi'
+        ? '<span class="pill pill-tipe-prod">Produksi</span>'
+        : '<span class="pill pill-tipe-biaya">Biaya</span>';
+
+      return `
+        <div class="kelompok-card" data-sub="${sub.id}" data-kel="${g.kode}">
+          <div>
+            <div class="kelompok-card-top">
+              <span class="kelompok-badge-code">${esc(g.kode)}</span>
+              ${tipePill}
+            </div>
+            <h4 class="kelompok-card-title">${esc(g.nama)}</h4>
+          </div>
+          <div class="kelompok-card-bottom">
+            <span>${g.items.length} Komoditas</span>
+            <div style="display:flex; align-items:center; gap:2px; font-weight:600; color:var(--brand);">
+              <span>Lihat</span>
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+              </svg>
+            </div>
+          </div>
+        </div>
+      `;
+    });
+    kelompokGrid.innerHTML = cards.join('');
+  }
+
+  // 6. Render Bertahap: Stage 3 (Komoditas)
+  function renderStageKomoditas(subId, kelCode) {
+    const sub = HIERARCHY.get(subId);
+    if (!sub) return renderStageSubsektor();
+    const group = sub.kelompokMap.get(kelCode);
+    if (!group) return renderStageKelompok(subId);
+
+    activeSubsektor = subId;
+    activeKelompok = kelCode;
+
+    stageSubsektor.style.display = 'none';
+    stageKelompok.style.display = 'none';
+    stageKomoditas.style.display = 'block';
+
+    // Breadcrumbs
+    breadcrumbBar.innerHTML = `
+      <ol class="breadcrumb-list">
+        <li class="breadcrumb-item">
+          <button class="breadcrumb-btn" onclick="location.hash='#bertahap'">Semua Subsektor</button>
+        </li>
+        <li class="breadcrumb-item"><span class="breadcrumb-sep">/</span></li>
+        <li class="breadcrumb-item">
+          <button class="breadcrumb-btn" onclick="location.hash='#bertahap/sub/${sub.id}'">${esc(sub.nama)}</button>
+        </li>
+        <li class="breadcrumb-item"><span class="breadcrumb-sep">/</span></li>
+        <li class="breadcrumb-item"><span class="breadcrumb-current">${esc(group.kode + ' ' + group.nama)}</span></li>
+      </ol>
+    `;
+
+    // Header summary
+    komoditasHeaderKode.textContent = group.kode;
+    komoditasHeaderNama.textContent = group.nama;
+    komoditasHeaderMeta.innerHTML = `Subsektor ${esc(sub.nama)} &bull; ${group.tipe === 'produksi' ? 'Produksi' : 'Biaya Produksi'}`;
+
+    renderKomoditasInGroup();
+  }
+
+  function renderKomoditasInGroup() {
+    const sub = HIERARCHY.get(activeSubsektor);
+    if (!sub) return;
+    const group = sub.kelompokMap.get(activeKelompok);
+    if (!group) return;
+
+    const term = stageKomoditasSearch.value.trim().toLowerCase();
+    const terms = term ? term.split(/\s+/).filter(Boolean) : [];
+    let items = group.items;
+
+    if (terms.length > 0) {
+      items = items.filter(d => {
+        const text = (d.nama + ' ' + d.kode).toLowerCase();
+        return terms.every(t => text.includes(t));
+      });
+    }
+
+    stageKomoditasCount.innerHTML = `Menampilkan <strong>${items.length}</strong> dari ${group.items.length} komoditas`;
+
+    if (items.length === 0) {
+      stageKomoditasTbody.innerHTML = '';
+      stageKomoditasCards.innerHTML = '';
+      stageKomoditasEmptyBox.style.display = 'block';
+      return;
+    }
+    stageKomoditasEmptyBox.style.display = 'none';
+
+    const tableRows = [];
+    const cardItems = [];
+
+    items.forEach(d => {
+      const satText = d.satuanTanam && d.satuanProduksi
+        ? esc(d.satuanTanam) + '<span class="unit-arrow">→</span>' + esc(d.satuanProduksi)
+        : esc(d.satuan || '-');
+
+      const tipePill = d.tipe === 'produksi'
+        ? '<span class="pill pill-tipe-prod">Produksi</span>'
+        : '<span class="pill pill-tipe-biaya">Biaya</span>';
+
+      // Table row
+      tableRows.push(`
+        <tr>
+          <td class="td-kode">
+            <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
+              ${hl(d.kode, terms)}${COPY_SVG}
+            </button>
+          </td>
+          <td class="td-nama">${hl(d.nama, terms)}</td>
+          <td class="td-satuan">${satText}</td>
+          <td><span class="pill pill-kelompok">${esc(d.kelompok + ' ' + d.kelompokNama)}</span></td>
+          <td>${tipePill}</td>
+        </tr>
+      `);
+
+      // Mobile card
+      cardItems.push(`
+        <div class="card-item">
+          <div class="card-top">
+            <div class="card-nama">${hl(d.nama, terms)}</div>
+            <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
+              ${hl(d.kode, terms)}${COPY_SVG}
+            </button>
+          </div>
+          <div class="card-meta">
+            <span class="card-satuan-box">${satText}</span>
+            ${tipePill}
+            <span class="pill pill-kelompok">${esc(d.kelompok + ' ' + d.kelompokNama)}</span>
+          </div>
+        </div>
+      `);
+    });
+
+    stageKomoditasTbody.innerHTML = tableRows.join('');
+    stageKomoditasCards.innerHTML = cardItems.join('');
+  }
+
+  // 7. Route & Mode Handler
+  function handleRoute() {
+    const hash = location.hash || '#bertahap';
+
+    if (hash.startsWith('#cari')) {
+      setMode('cari');
+      // If there's a search param, parse it
+      const matchQ = hash.match(/[?&]q=([^&]+)/);
+      if (matchQ) {
+        q.value = decodeURIComponent(matchQ[1]);
+        clearBtn.style.display = 'block';
+      }
+      renderSearch();
+      return;
+    }
+
+    // Bertahap route: #bertahap, #bertahap/sub/:sub, #bertahap/sub/:sub/kel/:kel
+    setMode('bertahap');
+    const subMatch = hash.match(/^#bertahap\/sub\/([2-8])\/kel\/([0-9]{4})$/);
+    if (subMatch) {
+      renderStageKomoditas(subMatch[1], subMatch[2]);
+      return;
+    }
+
+    const subOnlyMatch = hash.match(/^#bertahap\/sub\/([2-8])$/);
+    if (subOnlyMatch) {
+      renderStageKelompok(subOnlyMatch[1]);
+      return;
+    }
+
+    // Default: stage subsektor
+    renderStageSubsektor();
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    if (mode === 'bertahap') {
+      btnModeBertahap.classList.add('active');
+      btnModeCari.classList.remove('active');
+      viewBertahap.style.display = 'block';
+      viewCari.style.display = 'none';
+    } else {
+      btnModeBertahap.classList.remove('active');
+      btnModeCari.classList.add('active');
+      viewBertahap.style.display = 'none';
+      viewCari.style.display = 'block';
+      q.focus();
+    }
+  }
+
+  btnModeBertahap.addEventListener('click', () => {
+    location.hash = activeSubsektor ? (activeKelompok ? `#bertahap/sub/${activeSubsektor}/kel/${activeKelompok}` : `#bertahap/sub/${activeSubsektor}`) : '#bertahap';
+  });
+
+  btnModeCari.addEventListener('click', () => {
+    location.hash = '#cari';
+  });
+
+  btnQuickSearchHero.addEventListener('click', () => {
+    location.hash = '#cari';
+  });
+
+  // Stage 1 -> Click Card -> Stage 2
+  subsektorGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.subsektor-card');
+    if (card) {
+      const sub = card.dataset.sub;
+      location.hash = `#bertahap/sub/${sub}`;
+    }
+  });
+
+  // Stage 2 -> Filter Tipe & Search
+  stageTipeBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      stageTipeBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      stageKelompokTipe = b.dataset.t;
+      renderKelompokList();
+    });
+  });
+
+  kelompokSearch.addEventListener('input', renderKelompokList);
+
+  btnBackToSubsektor.addEventListener('click', () => {
+    location.hash = '#bertahap';
+  });
+
+  // Stage 2 -> Click Kelompok Card -> Stage 3
+  kelompokGrid.addEventListener('click', (e) => {
+    const card = e.target.closest('.kelompok-card');
+    if (card) {
+      const sub = card.dataset.sub;
+      const kel = card.dataset.kel;
+      location.hash = `#bertahap/sub/${sub}/kel/${kel}`;
+    }
+  });
+
+  // Stage 3 -> Filter Search & Back Button
+  stageKomoditasSearch.addEventListener('input', renderKomoditasInGroup);
+
+  btnBackToKelompok.addEventListener('click', () => {
+    if (activeSubsektor) {
+      location.hash = `#bertahap/sub/${activeSubsektor}`;
+    } else {
+      location.hash = '#bertahap';
+    }
+  });
+
+  // 8. Render Search Mode
+  tipeBtns.forEach(b => {
+    b.addEventListener('click', () => {
+      tipeBtns.forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      activeSearchTipe = b.dataset.t;
+      renderSearch();
+    });
+  });
+
+  subSelect.addEventListener('change', () => {
+    activeSearchSub = subSelect.value;
+    renderSearch();
+  });
+
+  q.addEventListener('input', () => {
+    clearBtn.style.display = q.value ? 'block' : 'none';
+    renderSearch();
+  });
+
+  clearBtn.addEventListener('click', () => {
+    q.value = '';
+    clearBtn.style.display = 'none';
+    q.focus();
+    renderSearch();
+  });
+
+  resetBtn.addEventListener('click', () => {
+    q.value = '';
+    clearBtn.style.display = 'none';
+    activeSearchTipe = '';
+    activeSearchSub = '';
+    subSelect.value = '';
+    tipeBtns.forEach((b, i) => b.classList.toggle('active', i === 0));
+    renderSearch();
+  });
+
+  function renderSearch() {
     const raw = q.value.trim().toLowerCase();
     const terms = raw ? raw.split(/\s+/).filter(Boolean) : [];
     let results = DATA;
 
-    if (activeSub) results = results.filter(d => d.subsektor === activeSub);
-    if (activeTipe) results = results.filter(d => d.tipe === activeTipe);
+    if (activeSearchSub) results = results.filter(d => d.subsektor === activeSearchSub);
+    if (activeSearchTipe) results = results.filter(d => d.tipe === activeSearchTipe);
 
     if (terms.length > 0) {
       results = results.filter(d => {
@@ -860,8 +1780,7 @@ footer a:hover {
     const total = results.length;
     const shown = Math.min(total, MAX_RENDER);
 
-    // Meta count
-    const hasFilter = raw || activeSub || activeTipe;
+    const hasFilter = raw || activeSearchSub || activeSearchTipe;
     resetBtn.style.display = hasFilter ? 'block' : 'none';
 
     infoText.innerHTML = 'Menemukan <strong>' + total.toLocaleString('id-ID') + '</strong> komoditas' +
@@ -875,7 +1794,6 @@ footer a:hover {
     }
     emptyBox.style.display = 'none';
 
-    // Build Desktop Table Rows
     const tableRows = [];
     const cardItems = [];
 
@@ -889,59 +1807,83 @@ footer a:hover {
         ? '<span class="pill pill-tipe-prod">Produksi</span>'
         : '<span class="pill pill-tipe-biaya">Biaya</span>';
 
-      const copySvg = '<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 0 1-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 0 1 1.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 0 0-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 0 1-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 0 0-3.375-3.375h-1.5a1.125 1.125 0 0 1-1.125-1.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H9.75" /></svg>';
+      tableRows.push(`
+        <tr>
+          <td class="td-kode">
+            <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
+              ${hl(d.kode, terms)}${COPY_SVG}
+            </button>
+          </td>
+          <td class="td-nama">${hl(d.nama, terms)}</td>
+          <td class="td-satuan">${satText}</td>
+          <td>
+            <span class="pill pill-kelompok" data-sub="${d.subsektor}" data-kel="${d.kelompok}" title="Lihat kelompok ini di mode bertahap">
+              ${hl(d.kelompok + ' ' + d.kelompokNama, terms)}
+            </span>
+          </td>
+          <td><span class="pill pill-subsektor">${esc(d.subsektorNama)}</span></td>
+          <td>${tipePill}</td>
+        </tr>
+      `);
 
-      // Table row
-      tableRows.push(
-        '<tr>' +
-        '<td class="td-kode">' +
-          '<button class="kode-badge" data-k="' + d.kode + '" title="Klik untuk salin kode">' +
-            hl(d.kode, terms) + copySvg +
-          '</button>' +
-        '</td>' +
-        '<td class="td-nama">' + hl(d.nama, terms) + '</td>' +
-        '<td class="td-satuan">' + satText + '</td>' +
-        '<td><span class="pill pill-kelompok">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span></td>' +
-        '<td><span class="pill pill-subsektor">' + esc(d.subsektorNama) + '</span></td>' +
-        '<td>' + tipePill + '</td>' +
-        '</tr>'
-      );
-
-      // Mobile card
-      cardItems.push(
-        '<div class="card-item">' +
-          '<div class="card-top">' +
-            '<div class="card-nama">' + hl(d.nama, terms) + '</div>' +
-            '<button class="kode-badge" data-k="' + d.kode + '" title="Klik untuk salin kode">' +
-              hl(d.kode, terms) + copySvg +
-            '</button>' +
-          '</div>' +
-          '<div class="card-meta">' +
-            '<span class="card-satuan-box">' + satText + '</span>' +
-            tipePill +
-            '<span class="pill pill-kelompok">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span>' +
-            '<span class="pill pill-subsektor">' + esc(d.subsektorNama) + '</span>' +
-          '</div>' +
-        '</div>'
-      );
+      cardItems.push(`
+        <div class="card-item">
+          <div class="card-top">
+            <div class="card-nama">${hl(d.nama, terms)}</div>
+            <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
+              ${hl(d.kode, terms)}${COPY_SVG}
+            </button>
+          </div>
+          <div class="card-meta">
+            <span class="card-satuan-box">${satText}</span>
+            ${tipePill}
+            <span class="pill pill-kelompok" data-sub="${d.subsektor}" data-kel="${d.kelompok}" title="Lihat kelompok ini di mode bertahap">
+              ${hl(d.kelompok + ' ' + d.kelompokNama, terms)}
+            </span>
+            <span class="pill pill-subsektor">${esc(d.subsektorNama)}</span>
+          </div>
+        </div>
+      `);
     }
 
     tbody.innerHTML = tableRows.join('');
     mobileCards.innerHTML = cardItems.join('');
   }
 
-  // Delegated Copy Clicks
+  // Delegated Clicks: Copy badge & jump to kelompok in Bertahap mode
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('.kode-badge');
-    if (btn) {
+    const copyBtn = e.target.closest('.kode-badge');
+    if (copyBtn) {
       e.preventDefault();
-      copyCode(btn.dataset.k);
+      copyCode(copyBtn.dataset.k);
+      return;
+    }
+
+    const kelPill = e.target.closest('.pill-kelompok');
+    if (kelPill && kelPill.dataset.sub && kelPill.dataset.kel) {
+      location.hash = `#bertahap/sub/${kelPill.dataset.sub}/kel/${kelPill.dataset.kel}`;
+      return;
     }
   });
 
+  // Keyboard shortcut '/' or Ctrl+K
+  window.addEventListener('keydown', (e) => {
+    if ((e.key === '/' && document.activeElement !== q && document.activeElement !== kelompokSearch && document.activeElement !== stageKomoditasSearch) ||
+        ((e.ctrlKey || e.metaKey) && e.key === 'k')) {
+      e.preventDefault();
+      location.hash = '#cari';
+      setTimeout(() => {
+        q.focus();
+        q.select();
+      }, 50);
+    }
+  });
+
+  window.addEventListener('hashchange', handleRoute);
+
   // Init
   initTheme();
-  render();
+  handleRoute();
 })();
 </script>
 </body>
