@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BUMAKO — Master Komoditas SPDT NTP 2026</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f8faf8;color:#1a1a1a;line-height:1.5}
+header{background:#16a34a;color:#fff;padding:1rem;text-align:center;position:sticky;top:0;z-index:10;box-shadow:0 2px 8px rgba(0,0,0,.15)}
+header h1{font-size:1.25rem;font-weight:700;letter-spacing:.5px}
+header p{font-size:.75rem;opacity:.85;margin-top:.15rem}
+.controls{padding:.75rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:auto;z-index:9}
+.search-wrap{position:relative;margin-bottom:.5rem}
+.search-wrap svg{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#9ca3af;pointer-events:none}
+#q{width:100%;padding:.6rem .75rem .6rem 2.25rem;border:1.5px solid #d1d5db;border-radius:8px;font-size:1rem;outline:none;transition:border-color .15s}
+#q:focus{border-color:#16a34a;box-shadow:0 0 0 3px rgba(22,163,74,.15)}
+.filters{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.filters select,.filters button{padding:.35rem .6rem;border:1.5px solid #d1d5db;border-radius:6px;font-size:.8rem;background:#fff;cursor:pointer;transition:all .15s}
+.filters select:focus{border-color:#16a34a;outline:none}
+.btn-tipe{font-weight:500}
+.btn-tipe.active{background:#16a34a;color:#fff;border-color:#16a34a}
+.info{padding:.4rem .75rem;font-size:.75rem;color:#6b7280;background:#f9fafb;border-bottom:1px solid #e5e7eb}
+table{width:100%;border-collapse:collapse}
+thead{background:#f1f5f1;position:sticky;top:0;z-index:1}
+th{text-align:left;padding:.5rem .5rem;font-size:.7rem;text-transform:uppercase;color:#4b5563;font-weight:600;border-bottom:2px solid #d1d5db;white-space:nowrap}
+td{padding:.45rem .5rem;font-size:.82rem;border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:nth-child(even){background:#f8faf8}
+tr:hover{background:#ecfdf5}
+.kode{font-family:"SF Mono",Consolas,monospace;font-weight:600;color:#16a34a;font-size:.8rem;cursor:pointer;white-space:nowrap}
+.kode:active{opacity:.6}
+.satuan{color:#6b7280;font-size:.75rem;white-space:nowrap}
+.kelompok-tag{display:inline-block;background:#e0f2fe;color:#0369a1;padding:.1rem .35rem;border-radius:4px;font-size:.65rem;font-weight:500;white-space:nowrap}
+.subsektor-tag{display:inline-block;background:#f0fdf4;color:#16a34a;padding:.1rem .35rem;border-radius:4px;font-size:.65rem;font-weight:500;white-space:nowrap}
+mark{background:#fef08a;color:inherit;padding:0 1px;border-radius:2px}
+.table-wrap{overflow-x:auto}
+.empty{text-align:center;padding:3rem 1rem;color:#9ca3af}
+.empty svg{width:48px;height:48px;margin-bottom:.5rem}
+.toast{position:fixed;bottom:1.5rem;left:50%;transform:translateX(-50%);background:#1a1a1a;color:#fff;padding:.5rem 1rem;border-radius:8px;font-size:.8rem;opacity:0;transition:opacity .3s;pointer-events:none;z-index:99}
+.toast.show{opacity:1}
+
+/* Desktop */
+@media(min-width:640px){
+  header h1{font-size:1.5rem}
+  .controls{padding:.75rem 1.5rem}
+  .info{padding:.4rem 1.5rem}
+  .table-wrap{padding:0 1rem}
+  td,th{padding:.5rem .75rem}
+}
+
+/* Hide subsektor column on very small screens */
+@media(max-width:420px){
+  .col-sub{display:none}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌾 BUMAKO</h1>
+  <p>Buku Master Komoditas SPDT NTP 2026</p>
+</header>
+
+<div class="controls">
+  <div class="search-wrap">
+    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+    <input type="search" id="q" placeholder="Cari kode atau nama komoditas…" autocomplete="off" autofocus>
+  </div>
+  <div class="filters">
+    <select id="fSub">
+      <option value="">Semua Subsektor</option>
+      <option value="2">Tanaman Pangan</option>
+      <option value="3">Hortikultura</option>
+      <option value="4">Perkebunan Rakyat</option>
+      <option value="5">Peternakan</option>
+      <option value="6">Perikanan Tangkap</option>
+      <option value="7">Perikanan Budidaya</option>
+      <option value="8">Kehutanan</option>
+    </select>
+    <button class="btn-tipe active" data-t="">Semua</button>
+    <button class="btn-tipe" data-t="produksi">Produksi</button>
+    <button class="btn-tipe" data-t="biaya">Biaya</button>
+  </div>
+</div>
+
+<div class="info" id="info"></div>
+
+<div class="table-wrap">
+  <table>
+    <thead>
+      <tr>
+        <th>Kode</th>
+        <th>Komoditas</th>
+        <th>Satuan</th>
+        <th>Kelompok</th>
+        <th class="col-sub">Subsektor</th>
+      </tr>
+    </thead>
+    <tbody id="tbody"></tbody>
+  </table>
+</div>
+
+<div class="empty" id="empty" style="display:none">
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z"/></svg>
+  <p>Tidak ada komoditas yang cocok</p>
+</div>
+
+<div class="toast" id="toast">Kode disalin!</div>
+
+<script src="data.js"></script>
+<script>
+(function(){
+  const q = document.getElementById('q');
+  const fSub = document.getElementById('fSub');
+  const tbody = document.getElementById('tbody');
+  const info = document.getElementById('info');
+  const empty = document.getElementById('empty');
+  const toast = document.getElementById('toast');
+  const btns = document.querySelectorAll('.btn-tipe');
+  let tipe = '';
+  let toastTimer;
+
+  // Virtual rendering: render max N rows at a time for initial load perf
+  const MAX_RENDER = 500;
+
+  btns.forEach(b => b.addEventListener('click', () => {
+    btns.forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    tipe = b.dataset.t;
+    render();
+  }));
+
+  q.addEventListener('input', render);
+  fSub.addEventListener('change', render);
+
+  function hl(text, terms) {
+    if (!terms || terms.length === 0) return esc(text);
+    let escaped = esc(text);
+    for (const t of terms) {
+      const re = new RegExp('(' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+      escaped = escaped.replace(re, '<mark>$1</mark>');
+    }
+    return escaped;
+  }
+
+  function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function render() {
+    const raw = q.value.trim().toLowerCase();
+    const terms = raw ? raw.split(/\s+/).filter(Boolean) : [];
+    const sub = fSub.value;
+    let results = DATA;
+
+    if (sub) results = results.filter(d => d.subsektor === sub);
+    if (tipe) results = results.filter(d => d.tipe === tipe);
+    if (terms.length > 0) {
+      results = results.filter(d => {
+        const text = (d.nama + ' ' + d.kode + ' ' + d.kelompokNama).toLowerCase();
+        return terms.every(t => text.includes(t));
+      });
+    }
+
+    const total = results.length;
+    const shown = Math.min(total, MAX_RENDER);
+    info.textContent = total.toLocaleString('id-ID') + ' komoditas ditemukan' +
+      (shown < total ? ' (menampilkan ' + shown + ' pertama)' : '');
+
+    if (total === 0) {
+      tbody.innerHTML = '';
+      empty.style.display = '';
+      return;
+    }
+    empty.style.display = 'none';
+
+    const frag = [];
+    for (let i = 0; i < shown; i++) {
+      const d = results[i];
+      const sat = d.satuanTanam && d.satuanProduksi
+        ? d.satuanTanam + ' → ' + d.satuanProduksi
+        : (d.satuan || '-');
+      frag.push(
+        '<tr>' +
+        '<td class="kode" data-k="' + d.kode + '" title="Klik untuk salin">' + hl(d.kode, terms) + '</td>' +
+        '<td>' + hl(d.nama, terms) + '</td>' +
+        '<td class="satuan">' + esc(sat) + '</td>' +
+        '<td><span class="kelompok-tag">' + hl(d.kelompok + ' ' + d.kelompokNama, terms) + '</span></td>' +
+        '<td class="col-sub"><span class="subsektor-tag">' + esc(d.subsektorNama) + '</span></td>' +
+        '</tr>'
+      );
+    }
+    tbody.innerHTML = frag.join('');
+  }
+
+  // Copy kode on click
+  tbody.addEventListener('click', function(e) {
+    const td = e.target.closest('.kode');
+    if (!td) return;
+    const k = td.dataset.k;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(k);
+    } else {
+      // fallback
+      const ta = document.createElement('textarea');
+      ta.value = k;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    clearTimeout(toastTimer);
+    toast.classList.add('show');
+    toastTimer = setTimeout(() => toast.classList.remove('show'), 1500);
+  });
+
+  // Initial render
+  render();
+})();
+</script>
+</body>
+</html>
