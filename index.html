@@ -450,29 +450,6 @@ main {
   display: block;
 }
 
-.sektor-quick-filter-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: .65rem;
-  flex-wrap: wrap;
-  gap: .4rem;
-}
-.btn-select-all-sektor {
-  background: var(--bg-surface);
-  border: 1px solid var(--border-strong);
-  color: var(--brand);
-  font-size: .75rem;
-  font-weight: 600;
-  padding: .25rem .65rem;
-  border-radius: 6px;
-  cursor: pointer;
-  transition: all .15s ease;
-}
-.btn-select-all-sektor:hover {
-  background: var(--brand-surface);
-}
-
 /* Kelompok List inside Sektor */
 .kelompok-list {
   display: flex;
@@ -491,14 +468,15 @@ main {
   box-shadow: 0 0 0 1px var(--brand);
 }
 .kelompok-header {
-  padding: .5rem .75rem;
+  padding: .6rem .85rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
-  font-size: .82rem;
+  font-size: .88rem;
   font-weight: 600;
   user-select: none;
+  gap: .5rem;
 }
 .kelompok-header:hover {
   background: var(--bg-hover);
@@ -507,6 +485,13 @@ main {
   display: flex;
   align-items: center;
   gap: .5rem;
+  min-width: 0;
+  flex: 1;
+}
+.kelompok-title-text {
+  line-height: 1.35;
+  word-break: break-word;
+  color: var(--text-main);
 }
 .kelompok-code-badge {
   font-family: var(--font-mono);
@@ -514,14 +499,16 @@ main {
   font-weight: 700;
   background: var(--badge-kel-bg);
   color: var(--badge-kel-text);
-  padding: .15rem .4rem;
+  padding: .15rem .45rem;
   border-radius: 5px;
+  flex-shrink: 0;
 }
 .kelompok-chevron {
   width: 14px;
   height: 14px;
   color: var(--text-dim);
   transition: transform .2s ease;
+  flex-shrink: 0;
 }
 .kelompok-item.open > .kelompok-header .kelompok-chevron {
   transform: rotate(180deg);
@@ -530,7 +517,7 @@ main {
 /* Subkelompok List inside Kelompok (Konsumsi) */
 .subkelompok-list {
   display: none;
-  padding: .5rem .75rem .6rem 1.5rem;
+  padding: .45rem .6rem .55rem 1rem;
   background: var(--bg-page);
   border-top: 1px solid var(--border-light);
   gap: .4rem;
@@ -546,8 +533,8 @@ main {
   overflow: hidden;
 }
 .subkelompok-header {
-  padding: .4rem .65rem;
-  font-size: .78rem;
+  padding: .45rem .65rem;
+  font-size: .84rem;
   font-weight: 600;
   color: var(--text-main);
   cursor: pointer;
@@ -556,9 +543,21 @@ main {
   justify-content: space-between;
   user-select: none;
   transition: background .15s ease;
+  gap: .5rem;
 }
 .subkelompok-header:hover {
   background: var(--bg-hover);
+}
+.subkel-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  min-width: 0;
+  flex: 1;
+}
+.subkel-title-text {
+  line-height: 1.35;
+  word-break: break-word;
 }
 .subkelompok-box.open > .subkelompok-header .kelompok-chevron {
   transform: rotate(180deg);
@@ -570,10 +569,10 @@ main {
 /* Rincian Komoditas (Unit Terkecil) List */
 .komoditas-leaf-list {
   display: none;
-  padding: .4rem .5rem .5rem;
+  padding: .45rem .55rem .55rem;
   background: var(--bg-subtle);
   border-top: 1px solid var(--border-light);
-  gap: .35rem;
+  gap: .4rem;
   flex-direction: column;
 }
 .subkelompok-box.open > .komoditas-leaf-list,
@@ -584,12 +583,11 @@ main {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: .5rem;
-  padding: .35rem .6rem;
+  gap: .65rem;
+  padding: .45rem .65rem;
   background: var(--bg-surface);
   border: 1px solid var(--border-light);
-  border-radius: 7px;
-  font-size: .78rem;
+  border-radius: 8px;
   transition: all .15s ease;
 }
 .komoditas-tree-item:hover {
@@ -599,25 +597,30 @@ main {
 .tree-item-info {
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: .55rem;
   min-width: 0;
   flex: 1;
 }
 .tree-nama {
   font-weight: 600;
+  font-size: .84rem;
   color: var(--text-main);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  line-height: 1.35;
+  word-break: break-word;
+}
+.tree-tags {
+  display: flex;
+  align-items: center;
+  gap: .4rem;
+  flex-shrink: 0;
 }
 .tree-satuan {
-  font-size: .72rem;
+  font-size: .75rem;
   color: var(--text-muted);
   background: var(--bg-subtle);
-  padding: .1rem .4rem;
-  border-radius: 4px;
+  padding: .15rem .45rem;
+  border-radius: 5px;
   white-space: nowrap;
-  flex-shrink: 0;
 }
 
 /* =======================================================
@@ -851,18 +854,58 @@ mark {
   font-weight: inherit;
 }
 
-/* Mobile Card View */
-.mobile-cards {
-  display: none;
-  flex-direction: column;
-  gap: .75rem;
-}
+/* Mobile Responsive Styles */
 @media (max-width: 640px) {
   .table-container {
     display: none;
   }
   .mobile-cards {
     display: flex;
+  }
+  .sektor-card-header {
+    padding: .65rem .75rem;
+  }
+  .sektor-title-text {
+    font-size: .88rem;
+    line-height: 1.3;
+  }
+  .sektor-card-body {
+    padding: .45rem .45rem .6rem;
+  }
+  .subkelompok-list {
+    padding: .35rem .25rem .45rem .4rem;
+  }
+  .kelompok-header {
+    padding: .5rem .6rem;
+    font-size: .84rem;
+  }
+  .subkelompok-header {
+    padding: .45rem .55rem;
+    font-size: .82rem;
+  }
+  .komoditas-tree-item {
+    flex-direction: column;
+    align-items: stretch;
+    gap: .35rem;
+    padding: .5rem .6rem;
+  }
+  .tree-item-info {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: .5rem;
+  }
+  .tree-nama {
+    font-size: .88rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+  .tree-tags {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding-top: .3rem;
+    border-top: 1px dashed var(--border-light);
   }
 }
 .card-item {
@@ -1234,11 +1277,11 @@ footer a:hover {
             subBoxes.push(`
               <div class="subkelompok-box" data-subsektor="${s.id}" data-kelompok="${k.kode}" data-subkelompok="${sub.kode}">
                 <div class="subkelompok-header">
-                  <div style="display:flex; align-items:center; gap:.4rem;">
-                    <span class="subkel-code">${sub.kode}</span>
-                    <span>${esc(sub.nama)}</span>
+                  <div class="subkel-title-wrap">
+                    <span class="kelompok-code-badge">${sub.kode}</span>
+                    <span class="subkel-title-text">${esc(sub.nama)}</span>
                   </div>
-                  <div style="display:flex; align-items:center; gap:.35rem;">
+                  <div style="display:flex; align-items:center; gap:.35rem; flex-shrink:0;">
                     <span class="sektor-count-pill">${sub.count}</span>
                     ${SMALL_CHEVRON_SVG}
                   </div>
@@ -1259,9 +1302,9 @@ footer a:hover {
             <div class="kelompok-header">
               <div class="kelompok-title-wrap">
                 <span class="kelompok-code-badge">${k.kode}</span>
-                <span>${esc(k.nama)}</span>
+                <span class="kelompok-title-text">${esc(k.nama)}</span>
               </div>
-              <div style="display:flex; align-items:center; gap:.4rem;">
+              <div style="display:flex; align-items:center; gap:.4rem; flex-shrink:0;">
                 <span class="sektor-count-pill">${k.count}</span>
                 ${SMALL_CHEVRON_SVG}
               </div>
@@ -1284,12 +1327,6 @@ footer a:hover {
             </div>
           </div>
           <div class="sektor-card-body">
-            <div class="sektor-quick-filter-row">
-              <span style="font-size:.78rem; color:var(--text-muted); font-weight:600;">Daftar Kelompok & Komoditas:</span>
-              <button class="btn-select-all-sektor" data-subsektor="${s.id}">
-                Tampilkan Semua Komoditas di ${esc(s.nama)} (${s.count})
-              </button>
-            </div>
             <div class="kelompok-list">
               ${kelHtml.join('')}
             </div>
@@ -1322,9 +1359,9 @@ footer a:hover {
             <button class="kode-badge" data-k="${d.kode}" title="Klik untuk salin kode">
               ${d.kode}${COPY_SVG}
             </button>
-            <span class="tree-nama" title="${esc(d.nama)}">${esc(d.nama)}</span>
+            <span class="tree-nama">${esc(d.nama)}</span>
           </div>
-          <div style="display:flex; align-items:center; gap:.4rem; flex-shrink:0;">
+          <div class="tree-tags">
             <span class="tree-satuan">${satText}</span>
             ${tipeBadge}
           </div>
@@ -1567,19 +1604,7 @@ footer a:hover {
       return;
     }
 
-    // 2) Klik Tombol "Tampilkan Semua Komoditas di Sektor Ini"
-    const btnAllSektor = e.target.closest('.btn-select-all-sektor');
-    if (btnAllSektor) {
-      e.stopPropagation();
-      const subId = btnAllSektor.dataset.subsektor;
-      activeSubsektor = subId;
-      activeKelompok = '';
-      activeSubkelompok = '';
-      render();
-      return;
-    }
-
-    // 3) Klik Subkelompok Header (Khusus Konsumsi) -> Expand/Collapse Unit Terkecil
+    // 2) Klik Subkelompok Header (Khusus Konsumsi) -> Expand/Collapse Unit Terkecil
     const subkelHeader = e.target.closest('.subkelompok-header');
     if (subkelHeader) {
       e.stopPropagation();
@@ -1606,7 +1631,7 @@ footer a:hover {
       return;
     }
 
-    // 4) Klik Kelompok Header
+    // 3) Klik Kelompok Header
     const kelHeader = e.target.closest('.kelompok-header');
     if (kelHeader) {
       e.stopPropagation();
@@ -1633,11 +1658,16 @@ footer a:hover {
       return;
     }
 
-    // 5) Klik Sektor Card Header -> Expand/Collapse Card Sektor
+    // 4) Klik Sektor Card Header -> Expand/Collapse Card Sektor & filter tabel
     const header = e.target.closest('.sektor-card-header');
     if (header) {
       const card = header.closest('.sektor-card');
+      const subId = card.dataset.subsektor;
       card.classList.toggle('open');
+      activeSubsektor = card.classList.contains('open') ? subId : '';
+      activeKelompok = '';
+      activeSubkelompok = '';
+      render();
       return;
     }
   });
